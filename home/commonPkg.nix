@@ -23,11 +23,9 @@ with pkgs ;
   nodejs_24
   # gui
   emacs
-  google-chrome
   bitwarden-desktop
   docker
   slack
-  teams
   vscode
   # emacs
   udev-gothic-nf
