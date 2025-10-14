@@ -4,9 +4,8 @@
   ...
 }: {
   imports = [
-    ../../modules/commonPkg
+    
   ];
-
   home = {
     username = "yuta";
     homeDirectory = "/home/yuta";
@@ -15,7 +14,7 @@
       [
         skimpdf
         iterm2
-        (import ./commonPkg.nix { inherit pkgs inputs; } )
+        (import ./../commonPkg.nix { inherit pkgs inputs; } )
       ];
   };
 }
