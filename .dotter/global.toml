@@ -1,0 +1,24 @@
+[helpers]
+
+[default]
+depends = []
+
+[default.files]
+"README.md" = ""
+"global.toml" = ""
+"local.toml" = ""
+"git/.gitignore_global" = "~/.gitignore_global"
+"git/.gitconfig" = "~/.gitconfig"
+"emacs/init.el" = "~/.emacs.d/init.el"
+"emacs/lisp" = "~/.emacs.d/lisp"
+"emacs/early-init.el" = "~/.emacs.d/early-init.el"
+"emacs/templates" = "~/.emacs.d/templates"
+"emacs/opam-user-setup.el" = "~/.emacs.d/opam-user-setup.el"
+"emacs/themes" = "~/.emacs.d/themes"
+"ocaml/.ocp-indent" = "~/.ocp-indent"
+"config/fish" = "~/.config/fish/"
+
+[default.variables]
+
+[settings]
+default_target_type = "automatic"
