@@ -24,9 +24,11 @@
         # specialArgs = { inherit inputs; };
       };
     };
-    nixosConfigurations = {
-      myubuntu = inputs.nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+    homeConfigurations = {
+      myubuntu = inputs.home-manager.lib.homeManagerConfiguration {
+	pkgs = import inputs.nixpkgs {
+	  system = "x86_64-linux";
+	};
         modules = [
           ./home/myubuntu/default.nix
           inputs.home-manager.nixosModules.home-manager
