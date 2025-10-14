@@ -1,5 +1,7 @@
 {
   pkgs,
+  inputs,
+  ...
 }: {
   imports = [
     ./commonPkg.nix
