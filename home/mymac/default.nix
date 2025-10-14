@@ -4,7 +4,7 @@
   ...
 }: {
   imports = [
-    ../commonPkg.nix
+    ../../modules/commonPkg
   ];
 
   home = {
