@@ -19,7 +19,7 @@
           ./home/mymac/default.nix
           inputs.home-manager.nixosModules.home-manager
         ];
-        specialArgs = { inherit inputs; };
+        # specialArgs = { inherit inputs; };
       };
       myubuntu = inputs.nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -27,7 +27,7 @@
           ./home/myubuntu/default.nix
           inputs.home-manager.nixosModules.home-manager
         ];
-        specialArgs = { inherit inputs; };
+        # specialArgs = { inherit inputs; };
       };
     };
   };
