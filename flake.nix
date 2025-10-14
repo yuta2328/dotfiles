@@ -9,11 +9,13 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    darwin.url = "github:LnL7/nix-darwin"; # macOS用
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, ... }@inputs: {
-    nixosConfigurations = {
-      mymac = inputs.nixpkgs.lib.nixosSystem {
+    darwinConfigurations = {
+      mymac = darwin.lib.darwinSystem {
         system = "x86_64-darwin";
         modules = [
           ./home/mymac/default.nix
@@ -21,6 +23,8 @@
         ];
         # specialArgs = { inherit inputs; };
       };
+    };
+    nixosConfigurations = {
       myubuntu = inputs.nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
