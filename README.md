@@ -1,6 +1,6 @@
 # Dotfiles
 
-My lazy dotfiles with Nix and Dotter.
+My dirty dotfiles with Nix and Dotter.
 
 # Install
 
