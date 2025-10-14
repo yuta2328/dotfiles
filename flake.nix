@@ -2,7 +2,7 @@
   description = "My Nix-managed dotfiles using Home Manager";
   
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nur = {
@@ -31,7 +31,7 @@
 	      };
         modules = [
           ./home/myubuntu/default.nix
-          inputs.home-manager.modules.home-manager
+          # inputs.home-manager.modules.home-manager
         ];
         # specialArgs = { inherit inputs; };
       };
