@@ -1,0 +1,34 @@
+{
+  description = "My Nix-managed dotfiles using Home Manager";
+  
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = { self, ... }@inputs: {
+    nixosConfigurations = {
+      mymac = inputs.nixpkgs.lib.nixosSystem {
+        system = "x86_64-darwin";
+        modules = [
+          ./home/mymac/default.nix
+          inputs.home-manager.nixosModules.home-manager
+        ];
+        specialArgs = { inherit inputs; };
+      };
+      myubuntu = inputs.nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./home/myubuntu/default.nix
+          inputs.home-manager.nixosModules.home-manager
+        ];
+        specialArgs = { inherit inputs; };
+      };
+    };
+  };
+}
