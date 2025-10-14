@@ -188,6 +188,10 @@
       :config
       (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
+    (leaf nerd-icons-dired
+      :ensure t
+      :hook (dired-mode-hook . nerd-icons-dired-mode))
+
     (leaf volatile-highlights
       :ensure t
       :init (volatile-highlights-mode))
