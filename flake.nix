@@ -26,12 +26,12 @@
     };
     homeConfigurations = {
       myubuntu = inputs.home-manager.lib.homeManagerConfiguration {
-	pkgs = import inputs.nixpkgs {
-	  system = "x86_64-linux";
-	};
+	      pkgs = import inputs.nixpkgs {
+	        system = "x86_64-linux";
+	      };
         modules = [
           ./home/myubuntu/default.nix
-          inputs.home-manager.nixosModules.home-manager
+          inputs.home-manager.homeManagerModules.home-manager
         ];
         # specialArgs = { inherit inputs; };
       };
