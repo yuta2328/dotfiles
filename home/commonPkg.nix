@@ -24,8 +24,6 @@ with pkgs ;
   # gui
   emacs
   bitwarden-desktop
-  docker
-  slack
   vscode
   # emacs
   udev-gothic-nf
