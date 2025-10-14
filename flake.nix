@@ -31,7 +31,7 @@
 	      };
         modules = [
           ./home/myubuntu/default.nix
-          inputs.home-manager.homeManagerModules.home-manager
+          inputs.home-manager.modules.home-manager
         ];
         # specialArgs = { inherit inputs; };
       };
