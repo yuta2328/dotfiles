@@ -15,7 +15,7 @@
 
   outputs = { self, ... }@inputs: {
     darwinConfigurations = {
-      mymac = darwin.lib.darwinSystem {
+      mymac = inputs.darwin.lib.darwinSystem {
         system = "x86_64-darwin";
         modules = [
           ./home/mymac/default.nix
