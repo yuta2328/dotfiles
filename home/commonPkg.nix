@@ -23,8 +23,6 @@ with pkgs ;
   nodejs_24
   # gui
   emacs
-  bitwarden-desktop
-  vscode
   # emacs
   udev-gothic-nf
   nerd-fonts.symbols-only
