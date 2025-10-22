@@ -708,13 +708,6 @@
     :ensure t
     :hook (org-mode-hook . org-fragtog-mode))
 
-  (leaf org-appear
-    :url "https://github.com/awth13/org-appear"
-    :ensure t
-    :hook (org-mode-hook . org-appear-mode)
-    :config
-    (setq org-appear-trigger 'always))
-
   (leaf org-remark
     :ensure t
     :init (org-remark-global-tracking-mode t)
