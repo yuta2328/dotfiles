@@ -30,7 +30,7 @@ excluding any that are under a directory named `org-archives`."
     result))
 
 (define-key global-map "\C-cl" 'org-store-link)
-(add-hook 'org-mode-hook #'org-indent-mode)
+;; (add-hook 'org-mode-hook #'org-indent-mode)
 (customize-set-variable 'org-startup-folded 'showall)
 (customize-set-variable 'org-outline-path-complete-in-steps nil)
 (customize-set-variable 'org-adapt-indentation nil)

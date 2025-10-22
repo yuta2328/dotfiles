@@ -21,6 +21,9 @@ with pkgs ;
   stack
   python314
   nodejs_24
+  php
+  docker
+  php84Packages.composer
   # gui
   emacs
   # emacs

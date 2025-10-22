@@ -138,7 +138,8 @@
                      :default-family "Source Han Code JP"
                      :default-width normal
                      :default-height 120
-                     :emoji-family "Twitter Color Emoji"))))
+                     ;; :emoji-family "Twitter Color Emoji"
+                     ))))
       :config
       (fontaine-set-preset 'regular))
     ;; ずれ確認用 半角40字、全角20字

@@ -8,7 +8,7 @@
   ];
   home = {
     username = "yuta";
-    homeDirectory = "/home/yuta";
+    homeDirectory = "/Users/yuta";
     stateVersion = "24.11";
     packages = with pkgs;
       [
