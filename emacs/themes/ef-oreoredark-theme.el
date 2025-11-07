@@ -12,7 +12,7 @@
   (defconst ef-oreoredark-palette
     '(;;; Basic values
 
-      (bg-main     "#282a36")
+      (bg-main     "#2b2b2b")
       (fg-main     "#A9B7C6")
       (bg-dim      "#282a36")
       (fg-dim      "#A9B7C6")
@@ -47,7 +47,7 @@
       (blue-faint    "#53bfd0")
 
       ;; MAGENTA (Pale Violet Red)
-      (magenta           "#df769b") 
+      (magenta          "#df769b")
       (magenta-warmer   "#df5f8a") ; 赤み強め
       (magenta-cooler   "#df89ac") ; 紫寄り
       (magenta-faint    "#eda4bb")
@@ -108,7 +108,7 @@
 
 ;;; Special hues
 
-      (bg-mode-line       "#cce7ff")
+      (bg-mode-line       "#001B33")
       (fg-mode-line       "#fedeff")
       (bg-completion      "#503240")
       (bg-hover           "#957856")
@@ -120,7 +120,7 @@
       (bg-info            "#0f3f4f") ; check with info
 
       (border        "#635850")
-      (cursor        "#f3c09a")
+      (cursor        "#0055bb")
       (fg-intense    "#ffffff")
 
       (modeline-err     "#ffbfbf")
@@ -153,7 +153,7 @@
       (identifier magenta-faint)
       (prompt yellow)
 
-      (bg-region "#169fb1")
+      (bg-region "#0B4E55")
       (fg-region unspecified)
 
 ;;;; Code mappings
