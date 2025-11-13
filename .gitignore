@@ -170,3 +170,5 @@ flycheck_*.el
 /network-security.data
 
 .config/fish/fish_variables
+result
+flake.lock
