@@ -51,14 +51,14 @@
         pyright
       ];
     file = {
-      ".gitignore_global".source = ../../git/.gitignore_global;
-      ".gitconfig".source = ../../git/.gitconfig;
-      ".emacs.d/init.el".source = ../../emacs/init.el;
-      ".emacs.d/early-init.el".source = ../../emacs/early-init.el;
-      ".emacs.d/templates".source = ../../emacs/templates;
-      ".emacs.d/opam-user-setup.el".source = ../../emacs/opam-user-setup.el;
-      ".emacs.d/themes".source = ../../emacs/themes;      
-      ".ocp-indent".source = ../../ocaml/.ocp-indent;
+      ".gitignore_global".source = ../git/.gitignore_global;
+      ".gitconfig".source = ../git/.gitconfig;
+      ".emacs.d/init.el".source = ../emacs/init.el;
+      ".emacs.d/early-init.el".source = ../emacs/early-init.el;
+      ".emacs.d/templates".source = ../emacs/templates;
+      ".emacs.d/opam-user-setup.el".source = ../emacs/opam-user-setup.el;
+      ".emacs.d/themes".source = ../emacs/themes;      
+      ".ocp-indent".source = ../ocaml/.ocp-indent;
     };
   };
   fonts.fontconfig = {
