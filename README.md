@@ -1,23 +1,14 @@
 # Dotfiles
 
-My dirty dotfiles with Nix and Dotter.
+My dotfiles in Home-manager and Nix.
 
-# Install
+# Installation
 
-To set up your environment using these files, you need to build with Nix and use a symlink with Dotter. 
-First, install Nix (you don't need to install Dotter separately, as it will be installed by Nix).
-
-**TODO: write how to install Nix**
-Mac:
-
+1. Install [Nix](https://nixos.org/download/) via **Multi-user installation**.
+2. Install [Home-manager](https://github.com/nix-community/home-manager)
+3. Build and Install this project as follows:
 ``` shell
-xcode-select --install
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-
+home-manager build --flake .#myubuntu
+home-manager switch --flake .#myubuntu
 ```
 
-Linux:
-
-``` shell
-sudo apt install git curl xz-utils
-```
