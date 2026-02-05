@@ -18,10 +18,9 @@
       mymac = inputs.darwin.lib.darwinSystem {
         system = "x86_64-darwin";
         modules = [
-          ./home/mymac/default.nix
+          ./home/default.nix
           inputs.home-manager.nixosModules.home-manager
         ];
-        # specialArgs = { inherit inputs; };
       };
     };
     homeConfigurations = {
@@ -30,10 +29,8 @@
 	        system = "x86_64-linux";
 	      };
         modules = [
-          ./home/myubuntu/default.nix
-          # inputs.home-manager.modules.home-manager
+          ./home/default.nix
         ];
-        # specialArgs = { inherit inputs; };
       };
     };
   };

@@ -107,8 +107,8 @@
 
 ;;; Special hues
 
-      (bg-mode-line       "#cce7ff")
-      (fg-mode-line       "#051524")
+      (bg-mode-line       "#0099ad")
+      (fg-mode-line       "#fedeff")
       (bg-completion      "#cceff5")
       (bg-hover           "#eab5ff")
       (bg-hover-secondary "#aae0bf")
@@ -122,9 +122,9 @@
       (cursor        "#0055bb")
       (fg-intense    "#000000")
 
-      (modeline-err     "#a00000")
-      (modeline-warning "#7f1090")
-      (modeline-info    "#0000af")
+      (modeline-err     "#ffbfbf")
+      (modeline-warning "#dfd443")
+      (modeline-info    "#7fefff")
 
       (underline-err     "#ef0f1f")
       (underline-warning "#bf5f00")
@@ -291,8 +291,7 @@
       (rainbow-5 yellow-cooler)
       (rainbow-6 magenta-cooler)
       (rainbow-7 red-cooler)
-      (rainbow-8 green-cooler)
-      ))
+      (rainbow-8 green-cooler)))
 
   (defcustom ef-oreore-palette-overrides nil
     "Overrides for `ef-oreore-palette'.

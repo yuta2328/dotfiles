@@ -4,11 +4,18 @@
 } :
 with pkgs ;
 [
+  # GUI
+  slack
+  bitwarden-desktop
+  emacs
+  ghostty
+  # CLI
   curl
-  dotter
   fish
   git
   gh
+  gemini-cli
+  github-copilot-cli
   # font
   source-han-code-jp
   twitter-color-emoji
@@ -24,8 +31,6 @@ with pkgs ;
   php
   docker
   php84Packages.composer
-  # gui
-  emacs
   # emacs
   udev-gothic-nf
   nerd-fonts.symbols-only

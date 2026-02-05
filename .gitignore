@@ -170,3 +170,4 @@ flycheck_*.el
 /network-security.data
 
 .config/fish/fish_variables
+.emacs/config.el

@@ -36,12 +36,6 @@
   :init
   (setq custom-file (concat user-emacs-directory "custom.el")))
 
-(leaf *mylib
-  :init (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-  :config
-  (leaf mytime
-    :require t))
-
 (leaf *builtin
   :init
   (global-auto-revert-mode)
@@ -78,7 +72,6 @@
   (setq frame-resize-pixelwise t)
   (setq frame-title-format "%f")
   (global-unset-key (kbd "C-z"))
-  (setopt desktop-save-mode t)
   :bind
   ("C-x C-1" . async-shell-command)
   ("s-n" . make-frame)
@@ -95,7 +88,7 @@
   ("C-x C-M-0" . text-scale-adjust)
   ("M-z" . toggle-truncate-lines)
   :custom
-  (debug-on-error . nil)
+  (debug-on-error . t)
   (init-file-debug . t)
   (ring-bell-function . 'ignore)
   (create-lockfiles . nil)
@@ -103,6 +96,9 @@
   (history-length . 1000)
   (history-delete-duplicates . t)
   (indent-tabs-mode . nil)
+  (use-dialog-box . nil)
+  (use-file-dialog . nil)
+  (truncate-lines . t)
   :hook
   (prog-mode-hook . display-line-numbers-mode)
   (text-mode-hook . display-line-numbers-mode)
@@ -110,6 +106,12 @@
 
 (leaf *sys
   :config
+  (leaf exec-path-from-shell
+    :ensure t
+    :when (memq window-system '(mac ns x))
+    :config
+    (exec-path-from-shell-initialize))
+
   (leaf auto-async-byte-compile
     :preface
     (defun auto-compile-inits ()
@@ -124,7 +126,11 @@
     (setq load-prefer-newer t)
     (add-to-list 'display-buffer-alist
                  '("\\*compilation\\*"
-                   (display-buffer-no-window)))))
+                   (display-buffer-no-window))))
+
+  (leaf auth-source
+    :config
+    (setq auth-file-path "~/.authinfo")))
 
 (leaf *interface
   :config
@@ -218,7 +224,10 @@
       ("C-h k" . helpful-key)
       ("C-h C" . helpful-command)
       :custom
-      (helpful-max-buffers . 5)))
+      (helpful-max-buffers . 5))
+
+    (leaf which-key
+      :init (which-key-mode)))
 
   (leaf *ja
     (leaf mozc
@@ -230,55 +239,6 @@
   
   (leaf *layout
     :config
-    (leaf *my/move-frame
-      :preface
-      (defun move-and-maximize-all-frames-to-monitor (monitor-index)
-        (let* ((frame-list (frame-list))
-               (screen-attributes (display-monitor-attributes-list)))
-          (if (and (>= monitor-index 0)
-                   (< monitor-index (length screen-attributes)))
-              (let ((target-monitor (nth monitor-index screen-attributes)))
-                (let* ((geometry (cdr (assq 'geometry target-monitor)))
-                       (x (nth 0 geometry))
-                       (y (nth 1 geometry)))
-                  (dolist (frame frame-list)
-                    (set-frame-position frame x y)
-                    (toggle-frame-maximized frame))))
-            (error "Invalid monitor index"))))
-
-      (defun move-and-maximize-all-frames-to-next-monitor ()
-        "Move all Emacs frames to the next monitor in sequence and maximize them."
-        (interactive)
-        (let* ((screen-attributes (display-monitor-attributes-list))
-               (num-monitors (length screen-attributes)))
-          (if (= num-monitors 0)
-              (error "No monitors detected")
-            (let* ((current-monitor (frame-monitor-attributes))
-                   (current-geometry (assq 'geometry current-monitor))
-                   (current-index (cl-position current-geometry screen-attributes
-                                               :test (lambda (a b) (equal (cdr a) (cdr (assq 'geometry b)))))))
-              (if (null current-index)
-                  (error "Unable to determine current monitor index")
-                (let ((next-index (mod (1+ current-index) num-monitors)))
-                  (move-and-maximize-all-frames-to-monitor next-index)
-                  (message "Moved all frames to monitor %d" next-index)))))))
-
-      :bind ("C-c m" . move-and-maximize-all-frames-to-next-monitor))
-
-    (leaf activities
-      :ensure t
-      :hook (after-init-hook . activities-mode)
-      :bind
-      ("C-x C-a C-n" . activities-new)
-      ("C-x C-a C-d" . activities-define)
-      ("C-x C-a C-a" . activities-resume)
-      ("C-x C-a C-s" . activities-suspend)
-      ("C-x C-a C-k" . activities-kill)
-      ("C-x C-a <return>" . activities-switch)
-      ("C-x C-a b" . activities-switch-buffer)
-      ("C-x C-a g" . activities-revert)
-      ("C-x C-a l" . activities-list))
-
     (leaf winner-mode
       :init (winner-mode))
 
@@ -299,7 +259,12 @@
       ("C-c C-n" . block-nav-next-block)
       ("C-c C-p" . block-nav-previous-block)
       ("C-c M-a" . block-nav-previous-indentation-level)
-      ("C-c M-e" . block-nav-next-indentation-level)))
+      ("C-c M-e" . block-nav-next-indentation-level))
+
+    (leaf puni
+      :ensure t
+      :init (puni-global-mode)
+      :hook (term-mode-hook . puni-disable-puni-mode)))
   
   (leaf *modeline
     :config
@@ -323,7 +288,7 @@
     (leaf marginalia
       :ensure t
       :hook (after-init-hook . marginalia-mode)))
-
+  
   (leaf *completion
     :config
     (leaf corfu
@@ -341,8 +306,6 @@
       (corfu-quit-no-match . t)
       (tab-always-indent . 'complete)
       :bind (:corfu-map
-             ("TAB" . corfu-next)
-             ("<tab>" . corfu-next)
              ("RET" . corfu-insert)
              ("<return>" . corfu-insert)))
     
@@ -404,7 +367,7 @@
     :ensure t
     :hook (after-init-hook . global-anzu-mode)))
 
-(leaf *programming
+(leaf *prog
   :config
   (leaf magit
     :ensure t
@@ -425,7 +388,7 @@
     :ensure t
     :init
     (defun my/orderless-dispatch-flex-first (_pattern index _total)
-            (and (eq index 0) 'orderless-flex))
+      (and (eq index 0) 'orderless-flex))
     
     (defun my/lsp-mode-setup-completion ()
       (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
@@ -436,6 +399,7 @@
       (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point))))
     ;; Reference: https://github.com/minad/corfu/wiki
     :hook
+    (dired-mode-hook . lsp-dired-mode)
     (lsp-mode-hook . lsp-enable-which-key-integration)
     (lsp-completion-mode-hook . my/lsp-mode-setup-completion)
     :custom
@@ -452,7 +416,8 @@
     :config
     (with-eval-after-load 'eglot
       (add-to-list 'eglot-server-programs
-                   '(LaTeX-mode . ("harper-ls" "--stdio")))))
+                   '(LaTeX-mode . ("harper-ls" "--stdio"))))
+    (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
 
   (leaf flycheck
     :ensure t
@@ -482,31 +447,49 @@
            ("TAB" . copilot-accept-completion))
     :config
     (setopt copilot-indent-offset-warning-disable t))
-
+  
   (leaf reformatter
     :ensure t
     :config
-    (reformatter-define ocamlformat
+    ;; (reformatter-define latexformat
+    ;;   :program "latexindent"
+    ;;   :args `("-m" "-l" "-w"))
+    (reformatter-define ocamlformatimpl
       :program "ocamlformat"
-      :args '("--enable-outside-detected-project" "--name" ,buffer-file-name "-"))
-    (reformatter-define latexformat
-      :program "latexindent"
-      :args `("-m" "-l" "-w"))))
+      :args (list "--enable-outside-detected-project" "--impl" "-"))
+    (reformatter-define ocamlformatintf
+      :program "ocamlformat"
+      :args (list "--enable-outside-detected-project" "--intf" "-")))
+
+  (leaf dumb-jump
+    :ensure t
+    :hook (xref-backend-functions . dumb-jump-xref-activate)
+    :custom (dumb-jump-force-searcher . 'rg)
+    :bind ("C-c g" . dumb-jump-go)))
 
 (leaf *lang
   :config
   (leaf tuareg
+    :preface
+    (defun my-ocamlformat-setup ()
+      (when buffer-file-name
+        (cond
+         ((string-suffix-p ".ml" buffer-file-name)
+          (ocamlformatimpl-on-save-mode 1))
+         ((string-suffix-p ".mli" buffer-file-name)
+          (ocamlformatintf-on-save-mode 1)))))
+    :mode
+    ("\\.ml\\'" . tuareg-mode)
+    ("\\.mli\\'" . tuareg-mode)
+    ("\\.mly\\'" . tuareg-mode)
     :ensure t
-    :bind (:tuareg-mode-map
-           ("C-<tab>" . ocamlformat)
-           ("C-TAB" . ocamlformat))
     :hook
     (tuareg-mode-hook . copilot-mode)
-    (tuareg-mode-hook . lsp)
-    (tuareg-mode-hook . ocamlformat-on-save-mode)
-    :config
-    (leaf dune
-      :mode ("\\dune\\'" . dune-mode)))
+    ;; (tuareg-mode-hook . my-ocamlformat-setup)
+    (tuareg-mode-hook . lsp))
+  
+  (leaf dune
+    :mode ("\\dune\\'" . dune-mode))
 
   (leaf elisp-mode
     :hook
@@ -545,8 +528,7 @@
     :bind (:LaTeX-mode-map
            ("C-<tab>" . latexformat)
            ("C-TAB" . latexformat))
-    :hook
-    (LaTeX-mode-hook . lsp)
+    :hook (LaTeX-mode-hook . lsp)
     ;; (LaTeX-mode-hook . latexformat-on-save-mode)
     :config
     (leaf auctex
@@ -678,58 +660,6 @@
     (leaf lsp-pyright
       :ensure t
       :custom (lsp-pyright-langserver-command . "pyright"))))
-
-
-(leaf *org
-  :config
-  (leaf myorg
-    :require t
-    :custom (myorg-dir . "~/pro/memo/"))
-
-  (leaf org-gcal
-    :ensure t
-    :config
-    (setq org-gcal-client-id (plist-get (nth 0 (auth-source-search :host "googleusercontent.com")) :user))
-    (setq org-gcal-client-secret (funcall (plist-get (nth 0 (auth-source-search :host "googleusercontent.com" :max 1)) :secret))))
-  
-  (leaf org-ref
-    :ensure t
-    :bind (:org-mode-map
-           ("C-c ]" . org-ref-insert-link))
-    :custom
-    (bibtex-completion-bibliography . '("~/pro/memo/common/my.bib"))
-    (bibtex-completion-pdf-open-function . (lambda (fpath) (call-process "open" nil 0 nil fpath))))
-  
-  (leaf org-ql
-    :ensure t
-    :url "alphapapa/org-ql")
-
-  (leaf org-super-agenda
-    :ensure t
-	:init (org-super-agenda-mode))
-
-  (leaf org-modern
-    :ensure t
-    :init (global-org-modern-mode))
-
-  (leaf org-fragtog
-    :url "https://github.com/io12/org-fragtog"
-    :ensure t
-    :hook (org-mode-hook . org-fragtog-mode))
-
-  (leaf org-remark
-    :ensure t
-    :init (org-remark-global-tracking-mode t)
-    :bind ("C-c n m" . org-remark-mark))
-
-  (leaf org-transclusion
-    :ensure t
-    :bind
-    ("<f12>" . org-transclusion-add-all)
-    ("C-c o t m" . org-transclusion-mode))
-  
-  (leaf org-timeblock
-    :ensure t))
 
 ;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
 (require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
