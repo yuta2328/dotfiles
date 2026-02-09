@@ -43,6 +43,7 @@
         nerd-fonts.symbols-only
         ripgrep
         cmake
+        glib
         libvterm
         libtool
         tex-fmt
@@ -57,7 +58,7 @@
       ".emacs.d/early-init.el".source = ../emacs/early-init.el;
       ".emacs.d/templates".source = ../emacs/templates;
       ".emacs.d/opam-user-setup.el".source = ../emacs/opam-user-setup.el;
-      ".emacs.d/themes".source = ../emacs/themes;      
+      ".emacs.d/ef-oreore-theme.el".source = ../emacs/ef-oreore-theme.el;
       ".ocp-indent".source = ../ocaml/.ocp-indent;
     };
   };

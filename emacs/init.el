@@ -167,13 +167,15 @@
       (show-paren-when-point-inside-paren . nil)
       (show-paren-when-point-in-periphery . t))
 
+    (leaf modus-themes
+      :ensure t)
+    
     (leaf ef-themes
       :ensure t
       :config
-      (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
-      (ef-themes-select 'ef-oreore)
-      ;; (ef-themes-select 'ef-oreoredark)
-      (load-theme 'ef-oreore :no-confirm))
+      (leaf ef-oreore
+        :require t)
+      (load-theme 'ef-oreore))
     
     (leaf rainbow-delimiters
       :ensure t
