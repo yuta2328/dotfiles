@@ -173,9 +173,8 @@
     (leaf ef-themes
       :ensure t
       :config
-      (leaf ef-oreore
-        :require t)
-      (load-theme 'ef-oreore))
+      (ef-themes-take-over-modus-themes-mode)
+      (modus-themes-load-theme 'ef-oreore))
     
     (leaf rainbow-delimiters
       :ensure t

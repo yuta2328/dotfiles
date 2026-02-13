@@ -171,3 +171,4 @@ flycheck_*.el
 
 .config/fish/fish_variables
 .emacs/config.el
+result

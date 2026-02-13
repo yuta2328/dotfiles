@@ -200,7 +200,5 @@ further details)."
  'ef-oreore-palette-overrides
  'ef-themes-custom-faces)
 
-(provide-theme 'ef-oreore)
-
 ;;; ef-oreore-theme.el ends here
 

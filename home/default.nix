@@ -46,6 +46,7 @@
         glib
         libvterm
         libtool
+        texlab
         tex-fmt
         harper
         nil
@@ -71,4 +72,5 @@
       emoji = [ "Twitter Color Emoji" ];
     };
   };
+  programs.fish.enable = true;
 }
