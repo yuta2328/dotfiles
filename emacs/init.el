@@ -642,6 +642,15 @@
 
   (leaf scala-mode
     :ensure t)
+
+  (leaf java-mode
+    :hook
+    (java-mode-hook . lsp-mode)
+    (java-mode-hook . copilot-mode)
+    :config
+    (leaf groovy-mode
+      :ensure t
+      :hook (groovy-mode-hook . lsp)))
   
   ;; (leaf *agda
   ;;   :config
@@ -651,7 +660,7 @@
   (leaf fish-mode
     :ensure t
     :hook (fish-mode-hook . copilot-mode))
-
+  
   (leaf python-mode
     :hook
     (python-mode-hook . copilot-mode)
