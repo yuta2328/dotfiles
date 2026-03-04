@@ -135,7 +135,6 @@
 (leaf *interface
   :config
   (leaf *appearance
-    :when (display-graphic-p)
     :config
     (leaf fontaine
       :ensure t
@@ -147,7 +146,7 @@
       (fontaine-presets . '((regular
                              :default-family "Source Han Code JP"
                              :default-width normal
-                             :default-height 120)))
+                             :default-height 100)))
       :config
       (fontaine-set-preset 'regular))
     ;; ずれ確認用 半角40字、全角20字
