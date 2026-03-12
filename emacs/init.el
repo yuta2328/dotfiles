@@ -462,9 +462,7 @@
       :args (list "--enable-outside-detected-project" "--intf" "-"))
     (reformatter-define java-format
       :program "google-java-format"
-      :args '("-")
-      :stdin t
-      :stdout t))
+      :args '("-")))
 
   (leaf dumb-jump
     :ensure t
