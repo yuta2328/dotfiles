@@ -51,6 +51,7 @@
         harper
         nil
         pyright
+	google-java-format
       ];
     file = {
       ".gitignore_global".source = ../git/.gitignore_global;

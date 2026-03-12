@@ -459,7 +459,12 @@
       :args (list "--enable-outside-detected-project" "--impl" "-"))
     (reformatter-define ocamlformatintf
       :program "ocamlformat"
-      :args (list "--enable-outside-detected-project" "--intf" "-")))
+      :args (list "--enable-outside-detected-project" "--intf" "-"))
+    (reformatter-define java-format
+      :program "google-java-format"
+      :args '("-")
+      :stdin t
+      :stdout t))
 
   (leaf dumb-jump
     :ensure t
@@ -647,6 +652,7 @@
     :hook
     (java-mode-hook . lsp-mode)
     (java-mode-hook . copilot-mode)
+    (java-mode-hook . java-format-on-save-mode)
     :config
     (leaf groovy-mode
       :ensure t
