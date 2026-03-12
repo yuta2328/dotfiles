@@ -650,7 +650,9 @@
     :config
     (leaf groovy-mode
       :ensure t
-      :hook (groovy-mode-hook . lsp)))
+      :hook (groovy-mode-hook . lsp))
+    (leaf lsp-java
+      :ensure t))
   
   ;; (leaf *agda
   ;;   :config
