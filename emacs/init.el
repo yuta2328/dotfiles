@@ -450,6 +450,7 @@
 
   (leaf format-all
     :ensure t
+    :hook (prog-mode-hook . format-all-mode)
     :config
     (setq-default format-all-formatters
                 '(("C++" clang-format)
