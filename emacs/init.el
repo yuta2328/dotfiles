@@ -449,7 +449,23 @@
     (setopt copilot-indent-offset-warning-disable t))
 
   (leaf format-all
-    :ensure t)
+    :ensure t
+    :config
+    (setq-default format-all-formatters
+                '(("C++" clang-format)
+                  ("C" clang-format)
+                  ("Haskell" brittany)
+                  ("Java" google-java-format)
+                  ("Scala" scalafmt)
+                  ("JavaScript" prettier)
+                  ("JSON" prettier)
+                  ("LaTeX" latexindent)
+                  ("Lua" stylua)
+                  ("OCaml" ocamlformat)
+                  ("Python" black)
+                  ("Rust" rustfmt)
+                  ("Nix" nixfmt)
+                  ("TypeScript" prettier))))
   
   ;; (leaf reformatter
   ;;   :ensure t
