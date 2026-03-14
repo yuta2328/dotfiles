@@ -447,22 +447,25 @@
            ("TAB" . copilot-accept-completion))
     :config
     (setopt copilot-indent-offset-warning-disable t))
+
+  (leaf format-all
+    :ensure t)
   
-  (leaf reformatter
-    :ensure t
-    :config
-    ;; (reformatter-define latexformat
-    ;;   :program "latexindent"
-    ;;   :args `("-m" "-l" "-w"))
-    (reformatter-define ocamlformatimpl
-      :program "ocamlformat"
-      :args (list "--enable-outside-detected-project" "--impl" "-"))
-    (reformatter-define ocamlformatintf
-      :program "ocamlformat"
-      :args (list "--enable-outside-detected-project" "--intf" "-"))
-    (reformatter-define java-format
-      :program "google-java-format"
-      :args '("-")))
+  ;; (leaf reformatter
+  ;;   :ensure t
+  ;;   :config
+  ;;   ;; (reformatter-define latexformat
+  ;;   ;;   :program "latexindent"
+  ;;   ;;   :args `("-m" "-l" "-w"))
+  ;;   (reformatter-define ocamlformatimpl
+  ;;     :program "ocamlformat"
+  ;;     :args (list "--enable-outside-detected-project" "--impl" "-"))
+  ;;   (reformatter-define ocamlformatintf
+  ;;     :program "ocamlformat"
+  ;;     :args (list "--enable-outside-detected-project" "--intf" "-"))
+  ;;   (reformatter-define java-format
+  ;;     :program "google-java-format"
+  ;;     :args '("-")))
 
   (leaf dumb-jump
     :ensure t
@@ -473,14 +476,14 @@
 (leaf *lang
   :config
   (leaf tuareg
-    :preface
-    (defun my-ocamlformat-setup ()
-      (when buffer-file-name
-        (cond
-         ((string-suffix-p ".ml" buffer-file-name)
-          (ocamlformatimpl-on-save-mode 1))
-         ((string-suffix-p ".mli" buffer-file-name)
-          (ocamlformatintf-on-save-mode 1)))))
+    ;; :preface
+    ;; (defun my-ocamlformat-setup ()
+    ;;   (when buffer-file-name
+    ;;     (cond
+    ;;      ((string-suffix-p ".ml" buffer-file-name)
+    ;;       (ocamlformatimpl-on-save-mode 1))
+    ;;      ((string-suffix-p ".mli" buffer-file-name)
+    ;;       (ocamlformatintf-on-save-mode 1)))))
     :mode
     ("\\.ml\\'" . tuareg-mode)
     ("\\.mli\\'" . tuareg-mode)
@@ -646,11 +649,11 @@
   (leaf scala-mode
     :ensure t)
 
-  (leaf java-mode
+  (leaf java
     :hook
     (java-mode-hook . lsp-mode)
     (java-mode-hook . copilot-mode)
-    (java-mode-hook . java-format-on-save-mode)
+    ;; (java-mode-hook . java-format-on-save-mode)
     :config
     (leaf groovy-mode
       :ensure t
