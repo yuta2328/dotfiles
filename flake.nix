@@ -18,8 +18,13 @@
       mymac = inputs.darwin.lib.darwinSystem {
         system = "x86_64-darwin";
         modules = [
-          ./home/default.nix
-          inputs.home-manager.nixosModules.home-manager
+          ./darwin/default.nix
+          inputs.home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.yuta = import ./home/darwin.nix;
+          }
         ];
       };
     };
