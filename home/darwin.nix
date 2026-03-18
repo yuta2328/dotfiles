@@ -7,10 +7,7 @@
     stateVersion = "24.11";
     
     packages = with pkgs; [
-      slack
-      bitwarden-desktop
       emacs
-      ghostty
       # CLI
       curl
       fish
@@ -39,7 +36,6 @@
       ripgrep
       cmake
       glib
-      libvterm
       libtool
       texlab
       tex-fmt
@@ -71,5 +67,47 @@
     };
   };
 
-  programs.fish.enable = true;
+  programs.fish = {
+    enable = true;
+    shellAliases = {
+      chrome = ''open -a "Google Chrome"'';
+      ocaml = "rlwrap ocaml";
+      metaocaml = "rlwrap metaocaml";
+      rel = "exec $SHELL -l";
+      icloud = "cd ~/Library/Mobile\\ Documents/com~apple~CloudDocs/";
+    };
+    functions = {
+      vterm_printf = {
+        body = ''
+          if begin; [  -n "$TMUX" ]  ; and  string match -q -r "screen|tmux" "$TERM"; end
+              printf "\ePtmux;\e\e]%s\007\e\\" "$argv"
+          else if string match -q -- "screen*" "$TERM"
+              printf "\eP\e]%s\007\e\\" "$argv"
+          else
+              printf "\e]%s\e\\" "$argv"
+          end
+        '';
+      };
+    };
+    interactiveShellInit = ''
+      source ~/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+    '';
+    shellInit = ''
+      if test -f /opt/miniconda3/bin/conda
+          eval /opt/miniconda3/bin/conda "shell.fish" "hook" $argv | source
+      else
+          if test -f "/opt/miniconda3/etc/fish/conf.d/conda.fish"
+              . "/opt/miniconda3/etc/fish/conf.d/conda.fish"
+          else
+              set -x PATH "/opt/miniconda3/bin" $PATH
+          end
+      end
+
+      set -gx PATH /opt/homebrew/bin $PATH
+      set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME
+      set -gx PATH $HOME/.cabal/bin $HOME/.ghcup/bin $PATH
+      set -gx PATH $PATH $HOME/.local/bin
+      set -gx AGDA_DIR $HOME/.config/agda
+    '';
+  };
 }
