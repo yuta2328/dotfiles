@@ -438,16 +438,6 @@
     :bind (:projectile-mode-map
            ("C-c p" . projectile-command-map)))
 
-  (leaf copilot
-    :el-get (copilot
-             :type github
-             :pkgname "zerolfx/copilot.el")
-    :bind (:copilot-completion-map
-           ("<tab>" . copilot-accept-completion)
-           ("TAB" . copilot-accept-completion))
-    :config
-    (setopt copilot-indent-offset-warning-disable t))
-
   (leaf format-all
     :ensure t
     :hook (prog-mode-hook . format-all-mode)
@@ -468,22 +458,6 @@
                   ("Nix" nixfmt)
                   ("TypeScript" prettier))))
   
-  ;; (leaf reformatter
-  ;;   :ensure t
-  ;;   :config
-  ;;   ;; (reformatter-define latexformat
-  ;;   ;;   :program "latexindent"
-  ;;   ;;   :args `("-m" "-l" "-w"))
-  ;;   (reformatter-define ocamlformatimpl
-  ;;     :program "ocamlformat"
-  ;;     :args (list "--enable-outside-detected-project" "--impl" "-"))
-  ;;   (reformatter-define ocamlformatintf
-  ;;     :program "ocamlformat"
-  ;;     :args (list "--enable-outside-detected-project" "--intf" "-"))
-  ;;   (reformatter-define java-format
-  ;;     :program "google-java-format"
-  ;;     :args '("-")))
-
   (leaf dumb-jump
     :ensure t
     :hook (xref-backend-functions . dumb-jump-xref-activate)
@@ -507,7 +481,6 @@
     ("\\.mly\\'" . tuareg-mode)
     :ensure t
     :hook
-    (tuareg-mode-hook . copilot-mode)
     ;; (tuareg-mode-hook . my-ocamlformat-setup)
     (tuareg-mode-hook . lsp))
   
@@ -517,7 +490,6 @@
   (leaf elisp-mode
     :hook
     (emacs-lisp-mode-hook . flycheck-mode)
-    (emacs-lisp-mode-hook . copilot-mode)
     (emacs-lisp-mode-hook . rainbow-delimiters-mode)
     :config
     (leaf macrostep
@@ -528,15 +500,13 @@
     :ensure t
     :mode ("\\.nix\\'" . nix-mode)
     :hook
-    (nix-mode-hook . lsp)
-    (nix-mode-hook . copilot-mode))
+    (nix-mode-hook . lsp))
 
   (leaf haskell-mode
     :ensure t
     :custom (haskell-stylish-on-save . t)
     :hook
     (haskell-mode-hook . lsp)
-    (haskell-mode-hook . copilot-mode)
     :config
     (leaf lsp-haskell
       :ensure t))
@@ -598,27 +568,14 @@
     :after lsp
     :ensure t
     :hook
-    (typescript-mode-hook . lsp)
-    (typescript-mode-hook . copilot-mode))
+    (typescript-mode-hook . lsp))
 
-  (leaf svelte-mode
-    :mode ("\\.svelte\\'" . svelte-mode)
-    :ensure t
-    :custom (svelte-basic-offset . 2)
-    :hook
-    (svelte-mode-hook . lsp)
-    (svelte-mode-hook . copilot-mode))
-
-  (leaf sass-mode
+  (leaf fsharp-mode
     :ensure t)
   
-  (leaf fsharp-mode
-    :ensure t
-    :hook (fsharp-mode-hook . copilot-mode)
-    :config
-    (leaf eglot-fsharp
-	  :hook (fsharp-mode-hook)
-	  :ensure t))
+  (leaf eglot-fsharp
+	:hook (fsharp-mode-hook)
+	:ensure t)
 
   (leaf markdown-mode
     :ensure t
@@ -634,25 +591,21 @@
     ("\\.yaml\\'" . yaml-mode))
 
   (leaf *prolog
-    :mode ("\\.pl\\'" . prolog-mode)
-    :hook (prolog-mode-hook . copilot-mode))
+    :mode ("\\.pl\\'" . prolog-mode))
 
   (leaf rust-mode
     :ensure t
-    :after lsp-mode
     :hook
-    (rust-mode-hook . copilot-mode)
     (rust-mode-hook . lsp)
     :custom
     (rust-format-on-save . t)
-    (lsp-rust-server . 'rls)
-    :config
-    (leaf cargo
-      :ensure t
-      :hook (rust-mode-hook . cargo-minor-mode)))
+    (lsp-rust-server . 'rls))
+
+  (leaf cargo
+    :ensure t
+    :hook (rust-mode-hook . cargo-minor-mode))
 
   (leaf rocq ;coq
-    :hook (coq-mode-hook . copilot-mode)
     :custom (coq-prog-name . "~/.opam/default/bin/coqtop")
     :config
     (leaf proof-general
@@ -660,41 +613,33 @@
 
   (leaf c-mode
     :hook
-    (c-mode-hook . lsp)
-    (c-mode-hook . copilot-mode))
+    (c-mode-hook . lsp))
 
   (leaf scala-mode
     :ensure t)
 
   (leaf java
     :hook
-    (java-mode-hook . lsp-mode)
-    (java-mode-hook . copilot-mode)
-    ;; (java-mode-hook . java-format-on-save-mode)
-    :config
-    (leaf groovy-mode
-      :ensure t
-      :hook (groovy-mode-hook . lsp))
-    (leaf lsp-java
-      :ensure t))
-  
-  ;; (leaf *agda
-  ;;   :config
-  ;;   (load-file (let ((coding-system-for-read 'utf-8))
-  ;;                (shell-command-to-string "agda --emacs-mode locate"))))
+    (java-mode-hook . lsp-mode))
 
-  (leaf fish-mode
+  (leaf groovy-mode
     :ensure t
-    :hook (fish-mode-hook . copilot-mode))
+    :hook (groovy-mode-hook . lsp))
+
+  (leaf lsp-java
+    :ensure t)
+  
+  (leaf fish-mode
+    :ensure t)
   
   (leaf python-mode
     :hook
-    (python-mode-hook . copilot-mode)
-    (python-mode-hook . lsp)
-    :config
-    (leaf lsp-pyright
+    (python-mode-hook . lsp))
+
+  (leaf lsp-pyright
       :ensure t
-      :custom (lsp-pyright-langserver-command . "pyright"))))
+      :custom (lsp-pyright-langserver-command . "pyright")))
+
 
 ;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
 (require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
