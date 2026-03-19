@@ -620,9 +620,7 @@
 
   (leaf java
     :hook
-    (java-mode-hook . lsp-mode)
-    :config
-    (flycheck-add-next-checker 'lsp 'java-checkstyle))
+    (java-mode-hook . lsp-mode))
 
   (leaf groovy-mode
     :ensure t
