@@ -446,7 +446,7 @@
                 '(("C++" clang-format)
                   ("C" clang-format)
                   ("Haskell" brittany)
-                  ("Java" google-java-format)
+                  ("Java" clang-format)
                   ("Scala" scalafmt)
                   ("JavaScript" prettier)
                   ("JSON" prettier)
@@ -620,7 +620,9 @@
 
   (leaf java
     :hook
-    (java-mode-hook . lsp-mode))
+    (java-mode-hook . lsp-mode)
+    :config
+    (flycheck-add-next-checker 'lsp 'java-checkstyle))
 
   (leaf groovy-mode
     :ensure t
