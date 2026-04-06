@@ -618,6 +618,15 @@
   (leaf scala-mode
     :ensure t)
 
+  (leaf sbt-mode
+    :ensure t)
+
+  (leaf lsp-metals
+    :ensure t
+    :hook (scala-mode-hook . lsp)
+    :config
+    (lsp-metals-enable-semantic-highlighting t))
+
   (leaf java
     :hook
     (java-mode-hook . lsp-mode))
