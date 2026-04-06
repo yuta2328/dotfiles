@@ -447,7 +447,6 @@
                   ("C" clang-format)
                   ("Haskell" brittany)
                   ("Java" clang-format)
-                  ("Scala" scalafmt)
                   ("JavaScript" prettier)
                   ("JSON" prettier)
                   ("LaTeX" latexindent)
@@ -623,7 +622,10 @@
 
   (leaf lsp-metals
     :ensure t
-    :hook (scala-mode-hook . lsp))
+    :hook
+    (scala-mode-hook . lsp)
+    (scala-mode-hook . (lambda ()
+                         (add-hook 'before-save-hook #'lsp-format-buffer nil t))))
 
   (leaf java
     :hook
