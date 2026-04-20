@@ -454,7 +454,6 @@
                   ("OCaml" ocamlformat)
                   ("Python" black)
                   ("Rust" rustfmt)
-                  ("Nix" nixfmt)
                   ("TypeScript" prettier))))
   
   (leaf dumb-jump
@@ -623,9 +622,7 @@
   (leaf lsp-metals
     :ensure t
     :hook
-    (scala-mode-hook . lsp)
-    (scala-mode-hook . (lambda ()
-                         (add-hook 'before-save-hook #'lsp-format-buffer nil t))))
+    (scala-mode-hook . lsp))
 
   (leaf java
     :hook
