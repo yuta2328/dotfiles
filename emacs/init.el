@@ -622,7 +622,9 @@
   (leaf lsp-metals
     :ensure t
     :hook
-    (scala-mode-hook . lsp))
+    (scala-mode-hook . lsp)
+    :config
+    (setq lsp-warn-no-matched-clients nil))
 
   (leaf java
     :hook
