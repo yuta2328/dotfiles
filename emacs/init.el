@@ -437,24 +437,6 @@
     :hook (after-init-hook . projectile-mode)
     :bind (:projectile-mode-map
            ("C-c p" . projectile-command-map)))
-
-  (leaf format-all
-    :ensure t
-    :hook (prog-mode-hook . format-all-mode)
-    :config
-    (setq-default format-all-formatters
-                '(("C++" clang-format)
-                  ("C" clang-format)
-                  ("Haskell" brittany)
-                  ("Java" clang-format)
-                  ("JavaScript" prettier)
-                  ("JSON" prettier)
-                  ("LaTeX" latexindent)
-                  ("Lua" stylua)
-                  ("OCaml" ocamlformat)
-                  ("Python" black)
-                  ("Rust" rustfmt)
-                  ("TypeScript" prettier))))
   
   (leaf dumb-jump
     :ensure t
@@ -465,21 +447,12 @@
 (leaf *lang
   :config
   (leaf tuareg
-    ;; :preface
-    ;; (defun my-ocamlformat-setup ()
-    ;;   (when buffer-file-name
-    ;;     (cond
-    ;;      ((string-suffix-p ".ml" buffer-file-name)
-    ;;       (ocamlformatimpl-on-save-mode 1))
-    ;;      ((string-suffix-p ".mli" buffer-file-name)
-    ;;       (ocamlformatintf-on-save-mode 1)))))
     :mode
     ("\\.ml\\'" . tuareg-mode)
     ("\\.mli\\'" . tuareg-mode)
     ("\\.mly\\'" . tuareg-mode)
     :ensure t
     :hook
-    ;; (tuareg-mode-hook . my-ocamlformat-setup)
     (tuareg-mode-hook . lsp))
   
   (leaf dune
@@ -516,11 +489,7 @@
     ("\\.cls\\'" . LaTeX-mode)
     ("\\.ltx\\'" . LaTeX-mode)
     ("\\.bib\\'" . bibtex-mode)
-    :bind (:LaTeX-mode-map
-           ("C-<tab>" . latexformat)
-           ("C-TAB" . latexformat))
     :hook (LaTeX-mode-hook . lsp)
-    ;; (LaTeX-mode-hook . latexformat-on-save-mode)
     :config
     (leaf auctex
       :ensure t
@@ -596,7 +565,6 @@
     :hook
     (rust-mode-hook . lsp)
     :custom
-    (rust-format-on-save . t)
     (lsp-rust-server . 'rls))
 
   (leaf cargo
