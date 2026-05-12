@@ -71,6 +71,7 @@
   (setq auto-save-list-file-prefix nil)
   (setq frame-resize-pixelwise t)
   (setq frame-title-format "%f")
+  (setq warning-minimum-level :error)
   (global-unset-key (kbd "C-z"))
   :bind
   ("C-x C-1" . async-shell-command)
