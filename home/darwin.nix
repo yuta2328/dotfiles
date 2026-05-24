@@ -15,6 +15,7 @@
       gh
       gemini-cli
       github-copilot-cli
+      lsd
       # font
       source-han-code-jp
       twitter-color-emoji
