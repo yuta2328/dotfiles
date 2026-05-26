@@ -70,6 +70,12 @@
 
   programs.fish = {
     enable = true;
+    plugins = [
+      {
+        name = "bass";
+        inherit (pkgs.fishPlugins.bass) src;
+      }
+    ];
     shellAliases = {
       chrome = ''open -a "Google Chrome"'';
       ocaml = "rlwrap ocaml";
@@ -87,6 +93,18 @@
           else
               printf "\e]%s\e\\" "$argv"
           end
+        '';
+      };
+      sdk = {
+        description = "Run SDKMAN from Fish";
+        body = ''
+          set -l sdkman_init $HOME/.sdkman/bin/sdkman-init.sh
+          if not test -f $sdkman_init
+              echo "sdk: $sdkman_init not found" >&2
+              return 1
+          end
+
+          bass source $sdkman_init ';' sdk $argv
         '';
       };
     };

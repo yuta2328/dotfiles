@@ -595,16 +595,34 @@
     :config
     (setq lsp-warn-no-matched-clients nil))
 
-  (leaf java
+  (leaf lsp-java
+    :ensure t
     :hook
     (java-mode-hook . lsp-mode))
+
+  (leaf lsp-sonarlint
+    :ensure t
+    :custom
+    (lsp-sonarlint-auto-download t)
+    :config
+    (lsp-sonarlint-enabled-analyzers '("java" "cfamily" "python" "text"))
+    (setq lsp-sonarlint-analyzers
+          '("~/sonar-extension/sonarjava.jar"
+            "~/sonar-extension/sonarxml.jar"
+            "~/sonar-extension/sonartext.jar"
+            "~/sonar-extension/sonarhtml.jar"
+            "~/sonar-extension/sonarjs.jar"
+            ))
+    (lsp-register-client
+     (make-lsp-client
+      :new-connection (lsp-stdio-connection '("sonarlint-language-server"))
+      :major-modes '(java-mode java-ts-mode)
+      :add-on? t
+      :server-id 'sonarlint-java)))
 
   (leaf groovy-mode
     :ensure t
     :hook (groovy-mode-hook . lsp))
-
-  (leaf lsp-java
-    :ensure t)
   
   (leaf fish-mode
     :ensure t)
