@@ -86,6 +86,13 @@ org-mode
 (transclude
  "#+transclude: "(p (read-string "link: ")) " :expand-links" n)
 
+java-mode
+
+(psvm "public static void main(String[] args) {" n> r> n "}")
+(sout "System.out.println(\"\");")
+(class "public class " (p "Sample") "{" n> r> n "}")
+(interface "public interface " (p "Sample") "{" n> r> n "}")
+
 ;; Local Variables:
 ;; mode: lisp-data
 ;; outline-regexp: "[a-z]"
