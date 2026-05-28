@@ -109,7 +109,7 @@
   (set-terminal-coding-system 'utf-8-unix)
   (prefer-coding-system 'utf-8-unix)
   (set-clipboard-coding-system 'utf-8)
-  (setq gc-cons-threshold (* 10 1000 1000)))
+  (setq gc-cons-threshold (* 100 1000 1000)))
 
 (leaf *sys
   :config
@@ -424,7 +424,10 @@
     (lsp-completion-mode-hook . my/lsp-mode-setup-completion)
     :custom
     (lsp-ocaml-lsp-server-command . '("ocamllsp" "--fallback-read-dot-merlin"))
-    (lsp-completion-provider . :none))
+    (lsp-completion-provider . :none)
+    :config
+    (setq lsp-idle-delay 0.5)
+    (setq lsp-log-io nil))
 
   (leaf lsp-ui
     :ensure t
