@@ -103,7 +103,13 @@
   :hook
   (prog-mode-hook . display-line-numbers-mode)
   (text-mode-hook . display-line-numbers-mode)
-  (conf-mode-hook . display-line-numbers-mode))
+  (conf-mode-hook . display-line-numbers-mode)
+  :config
+  (set-language-environment "Japanese")
+  (set-terminal-coding-system 'utf-8-unix)
+  (prefer-coding-system 'utf-8-unix)
+  (set-clipboard-coding-system 'utf-8)
+  (setq gc-cons-threshold (* 10 1000 1000)))
 
 (leaf *sys
   :config
@@ -147,7 +153,7 @@
       (fontaine-presets . '((regular
                              :default-family "Source Han Code JP"
                              :default-width normal
-                             :default-height 100)))
+                             :default-height 115)))
       :config
       (fontaine-set-preset 'regular))
     ;; ずれ確認用 半角40字、全角20字
@@ -195,7 +201,6 @@
       :ensure t)
 
     (leaf nerd-icons-corfu
-      :after corfu nerd-icons
       :ensure t
       :config
       (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
@@ -236,7 +241,21 @@
       :config
       (set-language-environment "Japanese")
       (setq default-input-method "japanese-mozc")
-      (prefer-coding-system 'utf-8)))
+      (prefer-coding-system 'utf-8))
+
+    (defun my-ime-on ()
+      (interactive)
+      (unless current-input-method
+        (toggle-input-method))
+      )
+
+    (defun my-ime-off ()
+      (interactive)
+      (when current-input-method
+        (deactivate-input-method))
+      )
+    (global-set-key [henkan]   'my-ime-on)
+    (global-set-key [muhenkan] 'my-ime-off))
   
   (leaf *layout
     :config
@@ -408,7 +427,6 @@
     (lsp-completion-provider . :none))
 
   (leaf lsp-ui
-    :after lsp-mode
     :ensure t
     :hook lsp-mode-hook)
   
@@ -430,7 +448,6 @@
     (flycheck-grammarly-check-time . 0.8))
 
   (leaf flycheck-eglot
-    :after eglot
     :ensure t)
 
   (leaf projectile
@@ -443,7 +460,17 @@
     :ensure t
     :hook (xref-backend-functions . dumb-jump-xref-activate)
     :custom (dumb-jump-force-searcher . 'rg)
-    :bind ("C-c g" . dumb-jump-go)))
+    :bind ("C-c g" . dumb-jump-go))
+
+  (leaf copilot
+    :ensure t
+    :bind (:copilot-completion-map
+           ("<tab>" . copilot-accept-completion)
+           ("TAB" . copilot-accept-completion)
+           ("C-<tab>" . copilot-accept-completion-by-word)
+           ("C-TAB" . copilot-accept-completion-by-word)
+           ("C-n" . copilot-next-completion)
+           ("C-p" . copilot-previous-completion))))
 
 (leaf *lang
   :config
@@ -454,15 +481,19 @@
     ("\\.mly\\'" . tuareg-mode)
     :ensure t
     :hook
-    (tuareg-mode-hook . lsp))
+    (tuareg-mode-hook . lsp)
+    (tuareg-mode-hook . copilot-mode))
   
   (leaf dune
-    :mode ("\\dune\\'" . dune-mode))
+    :mode ("\\dune\\'" . dune-mode)
+    :hook
+    (dune-mode-hook . copilot-mode))
 
   (leaf elisp-mode
     :hook
     (emacs-lisp-mode-hook . flycheck-mode)
     (emacs-lisp-mode-hook . rainbow-delimiters-mode)
+    (emacs-lisp-mode-hook . copilot-mode)
     :config
     (leaf macrostep
       :ensure t
@@ -472,13 +503,15 @@
     :ensure t
     :mode ("\\.nix\\'" . nix-mode)
     :hook
-    (nix-mode-hook . lsp))
+    (nix-mode-hook . lsp)
+    (nix-mode-hook . copilot-mode))
 
   (leaf haskell-mode
     :ensure t
     :custom (haskell-stylish-on-save . t)
     :hook
     (haskell-mode-hook . lsp)
+    (haskell-mode-hook . copilot-mode)
     :config
     (leaf lsp-haskell
       :ensure t))
@@ -490,7 +523,9 @@
     ("\\.cls\\'" . LaTeX-mode)
     ("\\.ltx\\'" . LaTeX-mode)
     ("\\.bib\\'" . bibtex-mode)
-    :hook (LaTeX-mode-hook . lsp)
+    :hook
+    (LaTeX-mode-hook . lsp)
+    (LaTeX-mode-hook . copilot-mode)
     :config
     (leaf auctex
       :ensure t
@@ -533,10 +568,18 @@
     :custom (pdf-view-resize-factor . 1.1))
 
   (leaf typescript-mode
-    :after lsp
     :ensure t
+    :preface
+    (define-derived-mode typescript-tsx-mode typescript-mode
+      "typescript-tsx")
+    :mode
+    ("\\.tsx?\\'" . typescript-tsx-mode)
     :hook
-    (typescript-mode-hook . lsp))
+    (typescript-mode-hook . lsp)
+    (typescript-mode-hook . copilot-mode)
+    (typescript-mode-hook . (lambda ()
+                              (setq-local lsp-enabled-clients '(ts-ls))
+                              (lsp))))
 
   (leaf fsharp-mode
     :ensure t)
@@ -549,22 +592,16 @@
     :ensure t
     :mode ("\\.md\\'" . gfm-mode))
 
-  (leaf *yaml
-    :preface
-    (el-get-bundle yaml-mode
-      :type github
-      :pkgname "yoshiki/yaml-mode")
-    :mode
-    ("\\.yml\\'" . yaml-mode)
-    ("\\.yaml\\'" . yaml-mode))
-
   (leaf *prolog
-    :mode ("\\.pl\\'" . prolog-mode))
+    :mode ("\\.pl\\'" . prolog-mode)
+    :hook
+    (prolog-mode-hook . copilot-mode))
 
   (leaf rust-mode
     :ensure t
     :hook
     (rust-mode-hook . lsp)
+    (rust-mode-hook . copilot-mode)
     :custom
     (lsp-rust-server . 'rls))
 
@@ -574,13 +611,17 @@
 
   (leaf rocq ;coq
     :custom (coq-prog-name . "~/.opam/default/bin/coqtop")
+    :hook
+    (coq-mode-hook . copilot-mode)
     :config
     (leaf proof-general
       :ensure t))
 
   (leaf c-mode
     :hook
-    (c-mode-hook . lsp))
+    (c-mode-hook . lsp)
+    (c-mode-hook . copilot-mode)
+    )
 
   (leaf scala-mode
     :ensure t)
@@ -592,18 +633,26 @@
     :ensure t
     :hook
     (scala-mode-hook . lsp)
+    (scala-mode-hook . copilot-mode)
     :config
     (setq lsp-warn-no-matched-clients nil))
+
+  (leaf groovy-mode
+    :ensure t
+    :hook
+    (groovy-mode-hook . lsp)
+    (groovy-mode-hook . copilot-mode))
 
   (leaf lsp-java
     :ensure t
     :hook
-    (java-mode-hook . lsp-mode))
+    (java-mode-hook . lsp-mode)
+    (java-mode-hook . copilot-mode))
 
   (leaf lsp-sonarlint
     :ensure t
     :custom
-    (lsp-sonarlint-auto-download t)
+    (lsp-sonarlint-auto-download . t)
     :config
     (lsp-sonarlint-enabled-analyzers '("java" "cfamily" "python" "text"))
     (setq lsp-sonarlint-analyzers
@@ -620,16 +669,13 @@
       :add-on? t
       :server-id 'sonarlint-java)))
 
-  (leaf groovy-mode
-    :ensure t
-    :hook (groovy-mode-hook . lsp))
-  
   (leaf fish-mode
     :ensure t)
   
   (leaf python-mode
     :hook
-    (python-mode-hook . lsp))
+    (python-mode-hook . lsp)
+    (python-mode-hook . copilot-mode))
 
   (leaf lsp-pyright
       :ensure t
