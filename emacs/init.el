@@ -153,7 +153,7 @@
       (fontaine-presets . '((regular
                              :default-family "Source Han Code JP"
                              :default-width normal
-                             :default-height 115)))
+                             :default-height 130)))
       :config
       (fontaine-set-preset 'regular))
     ;; ずれ確認用 半角40字、全角20字
