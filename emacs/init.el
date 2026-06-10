@@ -117,7 +117,9 @@
     :ensure t
     :when (memq window-system '(mac ns x))
     :config
-    (exec-path-from-shell-initialize))
+    (exec-path-from-shell-initialize)
+    (dolist (env '("PATH" "MANPATH"))
+      (exec-path-from-shell-copy-env env)))
 
   (leaf auto-async-byte-compile
     :preface
@@ -638,6 +640,7 @@
     (scala-mode-hook . lsp)
     (scala-mode-hook . copilot-mode)
     :config
+    (setq lsp-metals-server-command (or (executable-find "metals") "metals"))
     (setq lsp-warn-no-matched-clients nil))
 
   (leaf groovy-mode
