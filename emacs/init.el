@@ -397,7 +397,7 @@
            ("C-v" . vterm-send-next))
     :custom
     (vterm-max-scrollback . 100000)
-    (vterm-buffer-name-string . "vterm: %s")
+    (vterm-buffer-name-string . "*vterm*: %s")
     (vterm-keymap-exceptions . '("<f1>" "<f2>" "C-c" "C-x" "C-u" "C-g" "C-l" "M-x" "C-y" "M-y")))
 
   (leaf lsp-mode
