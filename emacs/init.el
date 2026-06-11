@@ -155,7 +155,7 @@
       (fontaine-presets . '((regular
                              :default-family "Source Han Code JP"
                              :default-width normal
-                             :default-height 130)))
+                             :default-height 115)))
       :config
       (fontaine-set-preset 'regular))
     ;; ずれ確認用 半角40字、全角20字
@@ -391,7 +391,14 @@
     (magit-post-refresh-hook . diff-hl-magit-post-refresh))
 
   (leaf vterm
-    :ensure t)
+    :ensure t
+    :bind (:vterm-mode-map
+           ("M-v" . vterm-send-prior)
+           ("C-v" . vterm-send-next))
+    :custom
+    (vterm-max-scrollback . 100000)
+    (vterm-buffer-name-string . "vterm: %s")
+    (vterm-keymap-exceptions . '("<f1>" "<f2>" "C-c" "C-x" "C-u" "C-g" "C-l" "M-x" "C-y" "M-y")))
 
   (leaf lsp-mode
     :ensure t
