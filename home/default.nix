@@ -50,6 +50,7 @@
         texlab
         tex-fmt
         harper
+        metals
         nil
         pyright
 	google-java-format
