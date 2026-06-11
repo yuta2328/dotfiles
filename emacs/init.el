@@ -236,26 +236,13 @@
       :init (which-key-mode)))
 
   (leaf *ja
+    :config
     (leaf mozc
       :ensure t
       :config
       (set-language-environment "Japanese")
       (setq default-input-method "japanese-mozc")
-      (prefer-coding-system 'utf-8))
-
-    (defun my-ime-on ()
-      (interactive)
-      (unless current-input-method
-        (toggle-input-method))
-      )
-
-    (defun my-ime-off ()
-      (interactive)
-      (when current-input-method
-        (deactivate-input-method))
-      )
-    (global-set-key [henkan]   'my-ime-on)
-    (global-set-key [muhenkan] 'my-ime-off))
+      (prefer-coding-system 'utf-8)))
   
   (leaf *layout
     :config
@@ -496,7 +483,6 @@
     :hook
     (emacs-lisp-mode-hook . flycheck-mode)
     (emacs-lisp-mode-hook . rainbow-delimiters-mode)
-    (emacs-lisp-mode-hook . copilot-mode)
     :config
     (leaf macrostep
       :ensure t
@@ -579,7 +565,6 @@
     ("\\.tsx?\\'" . typescript-tsx-mode)
     :hook
     (typescript-mode-hook . lsp)
-    (typescript-mode-hook . copilot-mode)
     (typescript-mode-hook . (lambda ()
                               (setq-local lsp-enabled-clients '(ts-ls))
                               (lsp))))
@@ -649,8 +634,7 @@
   (leaf lsp-java
     :ensure t
     :hook
-    (java-mode-hook . lsp-mode)
-    (java-mode-hook . copilot-mode))
+    (java-mode-hook . lsp-mode))
 
   (leaf lsp-sonarlint
     :ensure t
