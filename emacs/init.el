@@ -417,6 +417,7 @@
     :hook
     (dired-mode-hook . lsp-dired-mode)
     (lsp-mode-hook . lsp-enable-which-key-integration)
+    (lsp-mode-hook . lsp-inlay-hints-mode)
     (lsp-completion-mode-hook . my/lsp-mode-setup-completion)
     :custom
     (lsp-ocaml-lsp-server-command . '("ocamllsp" "--fallback-read-dot-merlin"))
