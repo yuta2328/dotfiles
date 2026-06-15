@@ -417,14 +417,16 @@
     :hook
     (dired-mode-hook . lsp-dired-mode)
     (lsp-mode-hook . lsp-enable-which-key-integration)
-    (lsp-mode-hook . lsp-inlay-hints-mode)
     (lsp-completion-mode-hook . my/lsp-mode-setup-completion)
     :custom
     (lsp-ocaml-lsp-server-command . '("ocamllsp" "--fallback-read-dot-merlin"))
     (lsp-completion-provider . :none)
     :config
-    (setq lsp-idle-delay 0.5)
-    (setq lsp-log-io nil))
+    (setq gc-cons-threshold 100000000)
+    (setq read-process-output-max (* 1024 1024))
+    (setq lsp-idle-delay 0.500)
+    (setq lsp-log-io nil)
+    (setq lsp-completion-provider :capf))
 
   (leaf lsp-ui
     :ensure t
