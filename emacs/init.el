@@ -32,6 +32,17 @@
 
 ;;; package manager
 
+(defun lsp-reinstall-packages-for-plists ()
+  "Reinstall LSP packages to compile with LSP_USE_PLISTS support.
+Run this after setting up on a new machine to avoid hash-table/plist errors."
+  (interactive)
+  (when (yes-or-no-p "Reinstall all LSP packages for plist support? ")
+    (dolist (pkg '(lsp-mode lsp-metals lsp-java lsp-pyright lsp-haskell lsp-sonarlint))
+      (when (package-installed-p pkg)
+        (message "Reinstalling %s..." pkg)
+        (package-reinstall pkg)))
+    (message "LSP packages reinstalled. Please restart Emacs.")))
+
 (leaf *cus-edit
   :init
   (setq custom-file (concat user-emacs-directory "custom.el")))

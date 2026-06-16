@@ -31,6 +31,8 @@
 (setq byte-compile-warnings '(cl-functions))
 
 ;; LSP performance optimization: use plists instead of hash tables
+;; IMPORTANT: After setting this on a new machine, LSP packages must be reinstalled
+;; to recompile with plist support. Run: M-x lsp-reinstall-packages-for-plists
 (setenv "LSP_USE_PLISTS" "true")
 
 (provide 'early-init)
