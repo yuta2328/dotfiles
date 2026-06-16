@@ -30,6 +30,9 @@
 (setq inhibit-startup-message t)
 (setq byte-compile-warnings '(cl-functions))
 
+;; LSP performance optimization: use plists instead of hash tables
+(setenv "LSP_USE_PLISTS" "true")
+
 (provide 'early-init)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; early-init.el ends here

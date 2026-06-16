@@ -305,7 +305,12 @@
       :init
       (global-corfu-mode)
       (corfu-history-mode)
-      :hook (corfu-mode-hook . corfu-popupinfo-mode)
+      ;; Increase delay in LSP buffers to reduce load
+      (defun my/corfu-lsp-setup ()
+        (setq-local corfu-auto-delay 0.5))
+      :hook
+      (corfu-mode-hook . corfu-popupinfo-mode)
+      (lsp-mode-hook . my/corfu-lsp-setup)
       :custom
       (corfu-auto . t)
       (corfu-auto-delay . 0.2)
@@ -405,7 +410,7 @@
     :init
     (defun my/orderless-dispatch-flex-first (_pattern index _total)
       (and (eq index 0) 'orderless-flex))
-    
+
     (defun my/lsp-mode-setup-completion ()
       (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
             '(orderless))
@@ -421,17 +426,52 @@
     :custom
     (lsp-ocaml-lsp-server-command . '("ocamllsp" "--fallback-read-dot-merlin"))
     (lsp-completion-provider . :none)
+    ;; Performance: disable heavy UI features
+    (lsp-headerline-breadcrumb-enable . nil)
+    (lsp-lens-enable . nil)
+    (lsp-modeline-code-actions-enable . nil)
+    (lsp-modeline-diagnostics-enable . nil)
+    (lsp-signature-auto-activate . nil)
+    (lsp-signature-render-documentation . nil)
+    (lsp-eldoc-enable-hover . nil)
+    ;; Disable file watchers (heavy on large projects)
+    (lsp-enable-file-watchers . nil)
+    ;; Reduce other features
+    (lsp-enable-folding . nil)
+    (lsp-enable-symbol-highlighting . nil)
+    (lsp-enable-on-type-formatting . nil)
+    (lsp-enable-links . nil)
     :config
     (setq gc-cons-threshold 100000000)
     (setq read-process-output-max (* 1024 1024))
-    (setq lsp-idle-delay 0.500)
+    (setq lsp-idle-delay 0.5)
     (setq lsp-log-io nil)
-    (setq lsp-completion-provider :capf))
+    ;; Exclude common heavy directories from file watching
+    (setq lsp-file-watch-ignored-directories
+          '("[/\\\\]\\.git\\'"
+            "[/\\\\]\\.cache\\'"
+            "[/\\\\]node_modules\\'"
+            "[/\\\\]_build\\'"
+            "[/\\\\]build\\'"
+            "[/\\\\]target\\'"
+            "[/\\\\]\\.bloop\\'"
+            "[/\\\\]\\.metals\\'"
+            "[/\\\\]\\.bsp\\'"
+            "[/\\\\]dist\\'"
+            "[/\\\\]\\.venv\\'"
+            "[/\\\\]venv\\'"
+            "[/\\\\]\\.pytest_cache\\'"
+            "[/\\\\]\\.mypy_cache\\'"))))
 
+  ;; Explicitly disable lsp-ui to prevent automatic loading
   (leaf lsp-ui
-    :ensure t
-    :hook lsp-mode-hook)
-  
+    :after lsp-mode
+    :custom
+    (lsp-ui-doc-enable . nil)
+    (lsp-ui-sideline-enable . nil)
+    (lsp-ui-peek-enable . nil)
+    (lsp-ui-imenu-enable . nil))
+
   (leaf eglot
     :ensure t
     :config
@@ -504,7 +544,6 @@
     :ensure t
     :mode ("\\.nix\\'" . nix-mode)
     :hook
-    (nix-mode-hook . lsp)
     (nix-mode-hook . copilot-mode))
 
   (leaf haskell-mode
@@ -618,9 +657,7 @@
 
   (leaf c-mode
     :hook
-    (c-mode-hook . lsp)
-    (c-mode-hook . copilot-mode)
-    )
+    (c-mode-hook . lsp))
 
   (leaf scala-mode
     :ensure t)
@@ -637,10 +674,7 @@
     (setq lsp-warn-no-matched-clients nil))
 
   (leaf groovy-mode
-    :ensure t
-    :hook
-    (groovy-mode-hook . lsp)
-    (groovy-mode-hook . copilot-mode))
+    :ensure t)
 
   (leaf lsp-java
     :ensure t
