@@ -420,7 +420,6 @@
       (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point))))
     ;; Reference: https://github.com/minad/corfu/wiki
     :hook
-    (dired-mode-hook . lsp-dired-mode)
     (lsp-mode-hook . lsp-enable-which-key-integration)
     (lsp-completion-mode-hook . my/lsp-mode-setup-completion)
     :custom
