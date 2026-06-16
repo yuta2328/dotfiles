@@ -471,7 +471,7 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
             "[/\\\\]\\.venv\\'"
             "[/\\\\]venv\\'"
             "[/\\\\]\\.pytest_cache\\'"
-            "[/\\\\]\\.mypy_cache\\'"))))
+            "[/\\\\]\\.mypy_cache\\'")))
 
   ;; Explicitly disable lsp-ui to prevent automatic loading
   (leaf lsp-ui
