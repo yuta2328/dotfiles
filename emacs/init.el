@@ -711,6 +711,9 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
       :add-on? t
       :server-id 'sonarlint-java)))
 
+  (leaf web-mode
+    :ensure t)
+
   (leaf fish-mode
     :ensure t)
   
