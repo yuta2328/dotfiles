@@ -712,6 +712,10 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
       :server-id 'sonarlint-java)))
 
   (leaf web-mode
+    :mode
+    ("\\.jsp\\'" . web-mode)
+    ("\\.html?\\'" . web-mode)
+    ("\\.css\\'" . web-mode)
     :ensure t)
 
   (leaf fish-mode
