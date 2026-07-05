@@ -731,6 +731,8 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
       :custom (lsp-pyright-langserver-command . "pyright")))
 
 (leaf *org
+  :preface
+  (defvar myorg-files "~/org/*.org")
   :config
   (leaf org-fragtog
     :url "https://github.com/io12/org-fragtog"
