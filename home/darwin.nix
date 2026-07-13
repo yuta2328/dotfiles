@@ -56,6 +56,7 @@
       ".emacs.d/templates".source = ../emacs/templates;
       ".emacs.d/opam-user-setup.el".source = ../emacs/opam-user-setup.el;
       ".emacs.d/ef-oreore-theme.el".source = ../emacs/ef-oreore-theme.el;
+      ".emacs.d/ef-oreoredark-theme.el".source = ../emacs/ef-oreoredark-theme.el;
       ".ocp-indent".source = ../ocaml/.ocp-indent;
     };
   };
