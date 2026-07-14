@@ -83,6 +83,7 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
   (setq frame-resize-pixelwise t)
   (setq frame-title-format "%f")
   (setq warning-minimum-level :error)
+  (setopt vc-follow-symlinks t)
   (global-unset-key (kbd "C-z"))
   :bind
   ("C-x C-1" . async-shell-command)
@@ -324,7 +325,7 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
       (lsp-mode-hook . my/corfu-lsp-setup)
       :custom
       (corfu-auto . t)
-      (corfu-auto-delay . 0.2)
+      (corfu-auto-delay . 0)
       (corfu-auto-prefix . 2)
       (corfu-cycle . t)
       (corfu-on-exact-match . nil)
@@ -730,74 +731,64 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
       :ensure t
       :custom (lsp-pyright-langserver-command . "pyright")))
 
-(leaf *org
+(leaf org
+  :ensure nil
   :preface
-  (defvar myorg-files "~/org/*.org")
-  :config
-  (leaf org-fragtog
-    :url "https://github.com/io12/org-fragtog"
-    :ensure t
-    :hook (org-mode-hook . org-fragtog-mode))
-
-  (leaf org-appear
-    :url "https://github.com/awth13/org-appear"
-    :ensure t
-    :hook (org-mode-hook . org-appear-mode)
-    :config
-    (setq org-appear-trigger 'always))
-
-  (define-key global-map "\C-cl" 'org-store-link)
-  (customize-set-variable 'org-startup-folded 'showall)
-  (customize-set-variable 'org-outline-path-complete-in-steps nil)
-  (customize-set-variable 'org-adapt-indentation nil)
-  (customize-set-variable 'org-refile-targets `((,(myorg-files) :maxlevel . 4))) ;; https://doc.endlessparentheses.com/Var/org-refile-targets.html
-  (customize-set-variable 'org-refile-use-outline-path 'file)
-  (customize-set-variable 'org-use-tag-inheritance "^@")
-  (customize-set-variable 'org-startup-with-inline-images t)
-  (customize-set-variable 'org-log-done 'time)
-  (customize-set-variable 'org-todo-keywords
-                          '((sequence "TODO(t)" "WIP(w)" "|" "DONE(d)" "CANCEL(c)" "Postponed(p)")))
-  (customize-set-variable 'org-startup-indented nil)
-  (customize-set-variable 'org-startup-latex-with-latex-preview nil)
-  (customize-set-variable 'org-format-latex-options '(plist-put org-format-latex-options :scale 1.5))
-  (customize-set-variable 'org-priority-highest 1)
-  (customize-set-variable 'org-priority-lowest 100)
-  (customize-set-variable 'org-priority-default 10)
+  (defvar myorg-files "~/org")
 
   (defun gen-uuid ()
     "Generate a new UUID string."
     (interactive)
     (nth 0 (split-string (shell-command-to-string "uuidgen") "\n")))
 
-  (define-key global-map "\C-ca" 'org-agenda)
-  (customize-set-variable 'org-agenda-start-on-weekday 0)
-  (customize-set-variable 'org-agenda-skip-additional-timestamps-same-entry nil)
-  (customize-set-variable 'org-agenda-span 1)
-  (customize-set-variable 'org-agenda-include-diary t)
-  (customize-set-variable 'org-agenda-prefix-format `((agenda . " %i %-12:c%?-12t% s")
-                                                      (todo . " %i %-12:c %t %s")
-                                                      (tags . " %i %-12:c")
-                                                      (search . " %i %-12:c")))
-  (customize-set-variable 'org-agenda-use-time-grid nil)
-  (customize-set-variable 'org-agenda-time-grid `((daily today require-timed remove-match)
-                                                  ,(cl-loop for m from 0 below 1440 by 30
-                                                            collect
-                                                            (format "%02d%02d" (/ m 60)
-                                                                    (% m 60)))
-                                                  "......" "----------------"))
-  (customize-set-variable 'org-agenda-date-format "%Y-%m-%d (%a)")
-  (customize-set-variable 'org-agenda-window-setup 'other-window)
-  (customize-set-variable 'org-agenda-columns-add-appointments-to-effort-sum t)
-  (customize-set-variable 'org-columns-default-format "%68ITEM(Task) %6Effort(Effort){:} %6CLOCKSUM(Clock){:}")
-  (customize-set-variable 'org-agenda-files (myorg-files))
-  (customize-set-variable 'org-complete-tags-always-offer-all-agenda-tags t)
-  (customize-set-variable 'org-agenda-columns-add-appointments-to-effort-sum t)
   (defvar org-agenda-agenda-column `((:discard (:not (:todo "TODO")))
                                      (:discard (:and (:scheduled future :deadline future)))
                                      (:name "💀 Missed tasks" :scheduled past :deadline past :order 3)
                                      (:name "Today's tasks" :order 4)))
-  (customize-set-variable
-   'org-agenda-custom-commands
+  :bind
+  ("C-c l" . org-store-link)
+  ("C-c a" . org-agenda)
+  ("C-c c" . org-capture)
+  :custom
+  (org-startup-folded . 'showall)
+  (org-outline-path-complete-in-steps . nil)
+  (org-adapt-indentation . nil)
+  ;; https://doc.endlessparentheses.com/Var/org-refile-targets.html
+  (org-refile-targets . `((,(directory-files myorg-files t "\\.org\\'") :maxlevel . 4)))
+  (org-refile-use-outline-path . 'file)
+  (org-use-tag-inheritance . "^@")
+  (org-startup-with-inline-images . t)
+  (org-log-done . 'time)
+  (org-todo-keywords . '((sequence "TODO(t)" "WIP(w)" "|" "DONE(d)" "CANCEL(c)" "Postponed(p)")))
+  (org-startup-indented . nil)
+  (org-startup-latex-with-latex-preview . nil)
+  (org-format-latex-options . '(plist-put org-format-latex-options :scale 1.5))
+  (org-priority-highest . 1)
+  (org-priority-lowest . 100)
+  (org-priority-default . 10)
+  (org-agenda-start-on-weekday . 0)
+  (org-agenda-skip-additional-timestamps-same-entry . nil)
+  (org-agenda-span . 1)
+  (org-agenda-include-diary . t)
+  (org-agenda-prefix-format . `((agenda . " %i %-12:c%?-12t% s")
+                                (todo . " %i %-12:c %t %s")
+                                (tags . " %i %-12:c")
+                                (search . " %i %-12:c")))
+  (org-agenda-use-time-grid . nil)
+  (org-agenda-time-grid . `((daily today require-timed remove-match)
+                            ,(cl-loop for m from 0 below 1440 by 30
+                                      collect
+                                      (format "%02d%02d" (/ m 60)
+                                              (% m 60)))
+                            "......" "----------------"))
+  (org-agenda-date-format . "%Y-%m-%d (%a)")
+  (org-agenda-window-setup . 'other-window)
+  (org-agenda-columns-add-appointments-to-effort-sum . t)
+  (org-columns-default-format . "%68ITEM(Task) %6Effort(Effort){:} %6CLOCKSUM(Clock){:}")
+  (org-agenda-files . `,(directory-files myorg-files t "\\.org\\'"))
+  (org-complete-tags-always-offer-all-agenda-tags . t)
+  (org-agenda-custom-commands
+   .
    `(("yf" "🫤 Forgotten tasks"
       ((alltodo "" ((org-agenda-overriding-header "🫤 Forgotten tasks")
                     (org-super-agenda-groups
@@ -845,19 +836,32 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
                    (org-super-agenda-groups
                     `((:name "Plan" :time-grid t :tag "plan" :tag "@plan")
                       (:discard (:anything t))))))))))
+  ;; https://orgmode.org/manual/Capture-templates.html
+  (org-capture-templates
+   .
+   `(("c" "Short memo" entry (file ,(expand-file-name "CAPTURE_SHORT_MEMO.org" myorg-files)) "* TODO %^{Title} \n:PROPERTIES:\n:ID: %(gen-uuid)\n:END:\n\n%?\n\n%U")
+     ("f" "File template" plain (here) ":PROPERTIES:\n:ID: %(gen-uuid)\n:END:\n#+TITLE: %^{Title}\n#+DATE: %U\n#+FILETAGS: \n\n%?")
+     ("h" "New Heading" entry (here) "* %^{Title} \n#+PROPERTIES:\n:ID: %(gen-uuid)\n:END:\n\n%?")
+     ("t" "Task" entry (here) "* TODO %^{Title} \nSCHEDULED: %t DEADLINE: %t\n:PROPERTIES:\n:ID: %(gen-uuid)\n:Effort: 0:30\n:END:\n\n%?")))
+  :config
+  (leaf org-super-agenda
+    :ensure t
+    :hook (org-mode-hook . org-super-agenda-mode))
+  (leaf org-fragtog
+    :url "https://github.com/io12/org-fragtog"
+    :ensure t
+    :hook (org-mode-hook . org-fragtog-mode))
+
+  (leaf org-appear
+    :url "https://github.com/awth13/org-appear"
+    :ensure t
+    :hook (org-mode-hook . org-appear-mode)
+    :config
+    (setq org-appear-trigger 'always))
 
   (org-babel-do-load-languages 'org-babel-load-languages '((ocaml . t)
 	                                                       (haskell . t)
-	                                                       (emacs-lisp . t)))
-
-  (global-set-key (kbd "C-c c") #'org-capture)
-
-  ;; https://orgmode.org/manual/Capture-templates.html
-  (setopt org-capture-templates
-          `(("c" "Short memo" entry (file ,(expand-file-name "CAPTURE_SHORT_MEMO.org" myorg-dir)) "* TODO %^{Title} \n:PROPERTIES:\n:ID: %(gen-uuid)\n:END:\n\n%?\n\n%U")
-            ("f" "File template" plain (here) ":PROPERTIES:\n:ID: %(gen-uuid)\n:END:\n#+TITLE: %^{Title}\n#+DATE: %U\n#+FILETAGS: \n\n%?")
-            ("h" "New Heading" entry (here) "* %^{Title} \n#+PROPERTIES:\n:ID: %(gen-uuid)\n:END:\n\n%?")
-            ("t" "Task" entry (here) "* TODO %^{Title} \nSCHEDULED: %t DEADLINE: %t\n:PROPERTIES:\n:ID: %(gen-uuid)\n:Effort: 0:30\n:END:\n\n%?"))))
+	                                                       (emacs-lisp . t))))
 
 ;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
 (require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")

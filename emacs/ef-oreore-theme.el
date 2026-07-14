@@ -36,7 +36,7 @@
     (magenta-faint    "#eda4bb")
     (cyan           "#49d6e9")
     (cyan-warmer   "#49c5e9")
-    (cyan-cooler   "#49e9f5")
+    (cyan-cooler   "#4fe4ef")
     (cyan-faint    "#7ee9f5")
 
     (bg-red-intense     "#ff8f88")
