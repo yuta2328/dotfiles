@@ -745,6 +745,8 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
   ("C-c l" . org-store-link)
   ("C-c a" . org-agenda)
   ("C-c c" . org-capture)
+  :hook
+  (org-mode-hook . org-indent-mode)
   :custom
   (org-startup-folded . 'showall)
   (org-outline-path-complete-in-steps . nil)
@@ -847,13 +849,16 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
     :url "https://github.com/io12/org-fragtog"
     :ensure t
     :hook (org-mode-hook . org-fragtog-mode))
-
   (leaf org-appear
     :url "https://github.com/awth13/org-appear"
     :ensure t
     :hook (org-mode-hook . org-appear-mode)
     :config
     (setq org-appear-trigger 'always))
+  (leaf org-modern
+    :init
+    (global-org-modern-mode)
+    :ensure t)
 
   (org-babel-do-load-languages 'org-babel-load-languages '((ocaml . t)
 	                                                       (haskell . t)
