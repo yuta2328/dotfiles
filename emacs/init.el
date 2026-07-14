@@ -317,12 +317,8 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
       :init
       (global-corfu-mode)
       (corfu-history-mode)
-      ;; Increase delay in LSP buffers to reduce load
-      (defun my/corfu-lsp-setup ()
-        (setq-local corfu-auto-delay 0.5))
       :hook
       (corfu-mode-hook . corfu-popupinfo-mode)
-      (lsp-mode-hook . my/corfu-lsp-setup)
       :custom
       (corfu-auto . t)
       (corfu-auto-delay . 0)
