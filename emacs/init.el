@@ -728,7 +728,6 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
       :custom (lsp-pyright-langserver-command . "pyright")))
 
 (leaf org
-  :ensure nil
   :preface
   (defvar myorg-files "~/org")
 
