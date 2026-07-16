@@ -842,8 +842,8 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
      ("t" "Task" entry (here) "* TODO %^{Title} \nSCHEDULED: %t DEADLINE: %t\n:PROPERTIES:\n:ID: %(gen-uuid)\n:Effort: 0:30\n:END:\n\n%?")))
   :config
   (leaf org-super-agenda
-    :ensure t
-    :hook (org-mode-hook . org-super-agenda-mode))
+    :init (org-super-agenda-mode 1)
+    :ensure t)
   (leaf org-fragtog
     :url "https://github.com/io12/org-fragtog"
     :ensure t
