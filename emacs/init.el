@@ -101,8 +101,6 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
   ("C-x C-M-0" . text-scale-adjust)
   ("M-z" . toggle-truncate-lines)
   :custom
-  (debug-on-error . t)
-  (init-file-debug . t)
   (ring-bell-function . 'ignore)
   (create-lockfiles . nil)
   (tab-width . 4)
