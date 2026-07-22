@@ -17,6 +17,7 @@
       github-copilot-cli
       lsd
       claude-code
+      typst
       # font
       source-han-code-jp
       twitter-color-emoji
