@@ -203,7 +203,7 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
 
     (leaf rainbow-mode
       :ensure t
-      :hook (elisp-mode-hook . rainbow-mode))
+      :hook (emacs-lisp-mode-hook . rainbow-mode))
     
     (leaf doom-modeline
       :ensure t
@@ -376,7 +376,7 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
     (conf-mode-hook . tempel-setup-capf)
     :bind
     ("M-+" . tempel-complete)
-	("M-*" . temple-insert)
+	("M-*" . tempel-insert)
     (:tempel-map
      ("<tab>" . tempel-next)
      ("C-<tab>" . tempel-previous))
@@ -685,26 +685,6 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
     :ensure t
     :hook
     (java-mode-hook . lsp-mode))
-
-  (leaf lsp-sonarlint
-    :ensure t
-    :custom
-    (lsp-sonarlint-auto-download . t)
-    :config
-    (lsp-sonarlint-enabled-analyzers '("java" "cfamily" "python" "text"))
-    (setq lsp-sonarlint-analyzers
-          '("~/sonar-extension/sonarjava.jar"
-            "~/sonar-extension/sonarxml.jar"
-            "~/sonar-extension/sonartext.jar"
-            "~/sonar-extension/sonarhtml.jar"
-            "~/sonar-extension/sonarjs.jar"
-            ))
-    (lsp-register-client
-     (make-lsp-client
-      :new-connection (lsp-stdio-connection '("sonarlint-language-server"))
-      :major-modes '(java-mode java-ts-mode)
-      :add-on? t
-      :server-id 'sonarlint-java)))
 
   (leaf web-mode
     :mode
