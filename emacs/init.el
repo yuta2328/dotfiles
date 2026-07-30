@@ -149,7 +149,22 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
 
   (leaf auth-source
     :config
-    (setq auth-file-path "~/.authinfo")))
+    (setq auth-file-path "~/.authinfo"))
+
+  (leaf wsl
+    :preface
+    (defun wslp ()
+      (and
+       (eq system-type 'gnu/linux)
+       (file-exists-p "/proc/sys/fs/binfmt_misc/WSLInterop")
+       (file-exists-p "/run/WSL")
+       (file-directory-p "/mnt/c")))
+    :when (wslp)
+    :config
+    (setq select-active-regions nil
+          select-enable-clipboard 't
+          select-enable-primary nil
+          interprogram-cut-function #'gui-select-text)))
 
 (leaf *interface
   :config
