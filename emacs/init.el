@@ -153,6 +153,14 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
 
   (leaf wsl
     :preface
+    ;; https://qiita.com/tadsan/items/8c66e7d753a1b24acd4e
+    (defun my-browse-url-wsl-host-browser (url &rest _args)
+      "Browse URL with WSL host web browser."
+      (prog1 (message "Open %s" url)
+        (shell-command-to-string
+         (mapconcat #'shell-quote-argument
+                    (list "cmd.exe" "/c" "start" url)
+                    " "))))
     (defun wslp ()
       (and
        (eq system-type 'gnu/linux)
@@ -161,6 +169,7 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
        (file-directory-p "/mnt/c")))
     :when (wslp)
     :config
+    (setopt browse-url-browser-function #'my-browse-url-wsl-host-browser)
     (setq select-active-regions nil
           select-enable-clipboard 't
           select-enable-primary nil
