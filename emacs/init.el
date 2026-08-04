@@ -274,7 +274,20 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
   (leaf *ja
     :config
     (leaf mozc
+      :preface
+      (defun my-input-method-off ()
+        (interactive)
+        (when current-input-method
+          (deactivate-input-method)))
+      (defun my-mozc-on ()
+        (interactive)
+        (unless (equal current-input-method "japanese-mozc")
+          (set-input-method "japanese-mozc")))
       :ensure t
+      :bind
+      ("<muhenkan>" . my-input-method-off)
+      ("<henkan>" . my-mozc-on)
+      (:mozc-mode-map ("<muhenkan>" . my-input-method-off))
       :config
       (set-language-environment "Japanese")
       (setq default-input-method "japanese-mozc")
