@@ -446,7 +446,8 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
     :custom
     (vterm-max-scrollback . 100000)
     (vterm-buffer-name-string . "*vterm*: %s")
-    (vterm-keymap-exceptions . '("<f1>" "<f2>" "C-c" "C-x" "C-u" "C-g" "C-l" "M-x" "C-y" "M-y")))
+    (vterm-max-scrollback . 100000)
+    (vterm-buffer-name-string . "*vterm*: %s"))
 
   (leaf lsp-mode
     :ensure t
