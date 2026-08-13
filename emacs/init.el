@@ -772,7 +772,7 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
   (org-use-tag-inheritance . "^@")
   (org-startup-with-inline-images . t)
   (org-log-done . 'time)
-  (org-todo-keywords . '((sequence "TODO(t)" "WIP(w)" "|" "DONE(d)" "CANCEL(c)" "Postponed(p)")))
+  (org-todo-keywords . '((sequence "TODO(t)" "ISSUE(i)" "|" "DONE(d)" "CANCEL(c)" "Postponed(p)")))
   (org-startup-indented . nil)
   (org-startup-latex-with-latex-preview . nil)
   (org-format-latex-options . '(plist-put org-format-latex-options :scale 1.5))
