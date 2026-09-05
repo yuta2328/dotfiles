@@ -13,11 +13,11 @@
       fish
       git
       gh
-      gemini-cli
-      github-copilot-cli
       lsd
+      cmake
+      curl
+      codex
       claude-code
-      typst
       # font
       source-han-code-jp
       twitter-color-emoji
@@ -30,9 +30,8 @@
       stack
       python314
       nodejs_24
-      php
-      docker
-      php84Packages.composer
+      sqlite
+      swi-prolog
       # emacs
       udev-gothic-nf
       nerd-fonts.symbols-only
@@ -46,7 +45,6 @@
       metals
       nil
       pyright
-      google-java-format
     ];
     
     file = {
