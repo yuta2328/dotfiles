@@ -7,6 +7,13 @@
     trusted-users = [ "@admin" ];
   };
 
+  # Garbage collect the whole store every Sunday at 03:15.
+  nix.gc = {
+    automatic = true;
+    interval = { Weekday = 7; Hour = 3; Minute = 15; };
+    options = "--delete-older-than 30d";
+  };
+
   # System packages
   environment.systemPackages = with pkgs; [
     vim

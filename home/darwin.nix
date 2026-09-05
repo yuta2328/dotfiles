@@ -18,6 +18,7 @@
       curl
       codex
       claude-code
+      coursier
       # font
       source-han-code-jp
       twitter-color-emoji
@@ -58,6 +59,13 @@
       ".emacs.d/ef-oreoredark-theme.el".source = ../emacs/ef-oreoredark-theme.el;
       ".ocp-indent".source = ../ocaml/.ocp-indent;
     };
+  };
+
+  # Garbage collect this user's profile generations weekly.
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
   };
 
   fonts.fontconfig = {
