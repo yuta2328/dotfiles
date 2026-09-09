@@ -26,7 +26,6 @@
       rustup
       texliveFull
       opam
-      coq
       rlwrap
       stack
       python314
@@ -122,16 +121,6 @@
       source ~/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
     '';
     shellInit = ''
-      if test -f /opt/miniconda3/bin/conda
-          eval /opt/miniconda3/bin/conda "shell.fish" "hook" $argv | source
-      else
-          if test -f "/opt/miniconda3/etc/fish/conf.d/conda.fish"
-              . "/opt/miniconda3/etc/fish/conf.d/conda.fish"
-          else
-              set -x PATH "/opt/miniconda3/bin" $PATH
-          end
-      end
-
       set -gx PATH /opt/homebrew/bin $PATH
       set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME
       set -gx PATH $HOME/.cabal/bin $HOME/.ghcup/bin $PATH
