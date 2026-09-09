@@ -691,7 +691,7 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
     :hook (rust-mode-hook . cargo-minor-mode))
 
   (leaf rocq ;coq
-    :custom (coq-prog-name . "~/.opam/default/bin/coqtop")
+    :custom (coq-prog-name . "~/.opam/5.5.0/bin/coqtop")
     :hook
     (coq-mode-hook . copilot-mode)
     :config
