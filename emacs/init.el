@@ -210,7 +210,10 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
       (show-paren-when-point-in-periphery . t))
 
     (leaf modus-themes
-      :ensure t)
+      :ensure t
+      :custom
+      (modus-themes-bold-constructs . t)
+      (modus-themes-italic-constructs . t))
     
     (leaf ef-themes
       :ensure t
