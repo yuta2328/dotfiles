@@ -20,7 +20,7 @@
       claude-code
       coursier
       # font
-      source-han-code-jp
+      plemoljp
       twitter-color-emoji
       # processor
       rustup
@@ -70,9 +70,9 @@
   fonts.fontconfig = {
     enable = true;
     defaultFonts = {
-      monospace = [ "Source Han Code JP" "Nerd Font Symbols" ];
-      sansSerif = [ "Source Han Code JP" ];
-      serif = [ "Source Han Code JP" ];
+      monospace = [ "PlemolJP" "Nerd Font Symbols" ];
+      sansSerif = [ "PlemolJP" ];
+      serif = [ "PlemolJP" ];
       emoji = [ "Twitter Color Emoji" ];
     };
   };

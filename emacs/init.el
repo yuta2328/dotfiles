@@ -187,7 +187,7 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
       (kill-emacs-hook . fontaine-store-latest-preset)
       :custom
       (fontaine-presets . '((regular
-                             :default-family "Source Han Code JP"
+                             :default-family "PlemolJP"
                              :default-width normal
                              :default-height 115)))
       :config
