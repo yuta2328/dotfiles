@@ -189,7 +189,7 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
       (fontaine-presets . '((regular
                              :default-family "PlemolJP"
                              :default-width normal
-                             :default-height 115)))
+                             :default-height 153)))
       :config
       (fontaine-set-preset 'regular))
     ;; ずれ確認用 半角40字、全角20字
