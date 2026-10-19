@@ -129,7 +129,7 @@
     (fg-prose-macro yellow)
     (prose-metadata fg-dim)
     (prose-metadata-value fg-alt)
-    (prose-table fg-alt)
+    (prose-table cyan)
     (prose-table-formula info)
     (prose-tag yellow-faint)
     (prose-todo red-warmer)
