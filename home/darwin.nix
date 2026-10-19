@@ -61,6 +61,14 @@
     };
   };
 
+  services.emacs = {
+    enable = true;
+    defaultEditor = true;
+  };
+  # launchd starts agents with a bare environment; give the daemon the login
+  # shell so exec-path-from-shell can import PATH from fish.
+  launchd.agents.emacs.config.EnvironmentVariables.SHELL = "${pkgs.fish}/bin/fish";
+
   # Garbage collect this user's profile generations weekly.
   nix.gc = {
     automatic = true;
@@ -91,6 +99,9 @@
       ocaml = "rlwrap ocaml";
       metaocaml = "rlwrap metaocaml";
       rel = "exec $SHELL -l";
+      e = "emacsclient -n";
+      ec = "emacsclient -c -n";
+      et = "emacsclient -t";
       icloud = "cd ~/Library/Mobile\\ Documents/com~apple~CloudDocs/";
     };
     functions = {

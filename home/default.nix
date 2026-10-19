@@ -75,6 +75,11 @@
     };
   };
 
+  services.emacs = {
+    enable = true;
+    defaultEditor = true;
+  };
+
   # Garbage collect this user's profile generations weekly.
   nix.gc = {
     automatic = true;
@@ -105,6 +110,9 @@
       ocaml = "rlwrap ocaml";
       metaocaml = "rlwrap metaocaml";
       rel = "exec $SHELL -l";
+      e = "emacsclient -n";
+      ec = "emacsclient -c -n";
+      et = "emacsclient -t";
     };
     functions = {
       fish_prompt = {

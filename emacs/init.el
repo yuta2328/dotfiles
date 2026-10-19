@@ -125,7 +125,7 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
   :config
   (leaf exec-path-from-shell
     :ensure t
-    :when (memq window-system '(mac ns x))
+    :when (or (daemonp) (memq window-system '(mac ns x)))
     :config
     (exec-path-from-shell-initialize)
     (dolist (env '("PATH" "MANPATH"))
