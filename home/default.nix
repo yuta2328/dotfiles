@@ -30,6 +30,7 @@
         typst
         # font
         plemoljp
+        source-han-code-jp
         twitter-color-emoji
         # processor
         rustup
@@ -85,7 +86,7 @@
   fonts.fontconfig = {
     enable = true;
     defaultFonts = {
-      monospace = [ "PlemolJP" "Nerd Font Symbols" ];
+      monospace = [ "Source Han Code JP" "Nerd Font Symbols" ];
       sansSerif = [ "PlemolJP" ];
       serif = [ "PlemolJP" ];
       emoji = [ "Twitter Color Emoji" ];
@@ -106,6 +107,25 @@
       rel = "exec $SHELL -l";
     };
     functions = {
+      fish_prompt = {
+        body = ''
+          set -l symbol ' $ '
+          set -l color $fish_color_cwd
+          if fish_is_root_user
+              set symbol ' # '
+              set -q fish_color_cwd_root
+              and set color $fish_color_cwd_root
+          end
+
+          echo -n $USER@$hostname
+
+          set_color $color
+          echo -n (prompt_pwd)
+          set_color normal
+
+          echo -n $symbol
+        '';
+      };
       vterm_printf = {
         body = ''
           if begin; [  -n "$TMUX" ]  ; and  string match -q -r "screen|tmux" "$TERM"; end
@@ -144,6 +164,8 @@
       set -gx PATH $HOME/.cabal/bin $HOME/.ghcup/bin $PATH
       set -gx PATH $PATH $HOME/.local/bin
       set -gx AGDA_DIR $HOME/.config/agda
+
+      test -f $HOME/.cargo/env.fish; and source $HOME/.cargo/env.fish
     '';
   };
 }
