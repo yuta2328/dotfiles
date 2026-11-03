@@ -14,6 +14,23 @@
   };
 
   outputs = { self, ... }@inputs: {
+    # `nix build` builds the Home Manager generation for the current system;
+    # `./result/activate` (or `nix run`) switches to it.
+    packages = {
+      aarch64-darwin.default = self.homeConfigurations.mymac.activationPackage;
+      x86_64-linux.default = self.homeConfigurations.myubuntu.activationPackage;
+    };
+    apps = {
+      aarch64-darwin.default = {
+        type = "app";
+        program = "${self.packages.aarch64-darwin.default}/activate";
+      };
+      x86_64-linux.default = {
+        type = "app";
+        program = "${self.packages.x86_64-linux.default}/activate";
+      };
+    };
+
     darwinConfigurations = {
       mymac = inputs.darwin.lib.darwinSystem {
         system = "aarch64-darwin";
@@ -32,6 +49,7 @@
       mymac = inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = import inputs.nixpkgs {
           system = "aarch64-darwin";
+          config.allowUnfree = true;
         };
         modules = [
           ./home/darwin.nix
@@ -40,6 +58,7 @@
       myubuntu = inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = import inputs.nixpkgs {
           system = "x86_64-linux";
+          config.allowUnfree = true;
         };
         modules = [
           ./home/default.nix

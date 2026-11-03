@@ -5,12 +5,16 @@ My dotfiles in Home-manager and Nix.
 # Installation
 
 1. Install [Nix](https://nixos.org/download/) via **Multi-user installation**.
-2. Install [Home-manager](https://github.com/nix-community/home-manager). [This section](https://nix-community.github.io/home-manager/index.xhtml#sec-install-standalone) may be useful for the installation.
-3. Build and Install this project as follows:
+2. Build and Install this project as follows (the configuration for the current system, `mymac` or `myubuntu`, is selected automatically):
 ``` shell
-home-manager build --flake .#myubuntu
-home-manager switch --flake .#myubuntu
+nix build          # build only; the result is linked at ./result
+./result/activate  # switch to the built configuration
 ```
+Or build and switch in one step:
+``` shell
+nix run
+```
+The standalone [Home-manager](https://github.com/nix-community/home-manager) CLI is not required, but `home-manager switch --flake .#myubuntu` still works if it is installed.
 
 ## Emacs Setup
 
