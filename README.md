@@ -22,6 +22,16 @@ Or build and switch in one step:
 nix run
 ```
 
+## Updating packages
+
+Package versions are pinned by `flake.lock`. To update them:
+``` shell
+make upgrade   # update flake.lock, build, and show the version changes
+make switch    # activate
+git commit flake.lock -m "flake: update inputs"
+```
+Use `make update INPUT=nixpkgs` to update one input only, and `make help` to list all targets.
+
 ## macOS System Settings (optional)
 
 `darwinConfigurations.mymac` manages macOS system settings (Dock, Finder, key repeat, Caps Lock → Control, system-wide Nix settings) with [nix-darwin](https://github.com/nix-darwin/nix-darwin). 
