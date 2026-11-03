@@ -5,7 +5,12 @@ My dotfiles in Home-manager and Nix.
 # Installation
 
 1. Install [Nix](https://nixos.org/download/) via **Multi-user installation**.
-2. Build and Install this project as follows (the configuration for the current system, `mymac` or `myubuntu`, is selected automatically):
+2. Enable the `nix-command` and `flakes` features, which `nix build` and `nix run` need:
+``` shell
+mkdir -p ~/.config/nix
+echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+```
+3. Build and Install this project as follows (the configuration for the current system, `mymac` or `myubuntu`, is selected automatically):
 ``` shell
 nix build          # build only; the result is linked at ./result
 ./result/activate  # switch to the built configuration
