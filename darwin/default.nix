@@ -54,11 +54,11 @@
     stateVersion = 5;
   };
 
+  # The user that system.defaults and other per-user settings apply to.
+  system.primaryUser = "yuta";
+
   # Shell configuration
   programs.fish.enable = true;
-
-  # Auto-upgrade nix package and the daemon service
-  services.nix-daemon.enable = true;
 
   # Used for backwards compatibility
   system.configurationRevision = null;
