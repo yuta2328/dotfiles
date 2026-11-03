@@ -198,7 +198,7 @@ further details)."
  'ef-oreore-palette
  nil
  'ef-oreore-palette-overrides
- 'ef-themes-custom-faces)
+ nil)
 
 ;;; ef-oreore-theme.el ends here
 
