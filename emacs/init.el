@@ -131,16 +131,13 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
     (dolist (env '("PATH" "MANPATH"))
       (exec-path-from-shell-copy-env env)))
 
+  ;; Don't byte-compile ~/.emacs.d on exit: init.el etc. are Home Manager
+  ;; symlinks into the Nix store (mtime 1970), so any .elc written next to
+  ;; them always looks newer and silently shadows later config changes.
   (leaf auto-async-byte-compile
-    :preface
-    (defun auto-compile-inits ()
-      "Byte-compile Lisp files modified in the directory."
-      (interactive)
-      (byte-recompile-directory (expand-file-name "~/.emacs.d") 0))
     :ensure t
     :hook
     (emacs-lisp-mode-hook . enable-auto-async-byte-compile-mode)
-    (kill-emacs-hook . auto-compile-inits)
     :config
     (setq load-prefer-newer t)
     (add-to-list 'display-buffer-alist
@@ -241,6 +238,7 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
 
     (leaf nerd-icons-corfu
       :ensure t
+      :after corfu
       :config
       (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
