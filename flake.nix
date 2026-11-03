@@ -31,18 +31,12 @@
       };
     };
 
+    # macOS system settings only (Dock, Finder, keyboard, ...). The user
+    # environment comes from homeConfigurations.mymac; see the README.
     darwinConfigurations = {
       mymac = inputs.darwin.lib.darwinSystem {
         system = "aarch64-darwin";
-        modules = [
-          ./darwin/default.nix
-          inputs.home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.yuta = import ./home/darwin.nix;
-          }
-        ];
+        modules = [ ./darwin/default.nix ];
       };
     };
     homeConfigurations = {

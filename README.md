@@ -16,6 +16,19 @@ nix run
 ```
 The standalone [Home-manager](https://github.com/nix-community/home-manager) CLI is not required, but `home-manager switch --flake .#myubuntu` still works if it is installed.
 
+## macOS System Settings (optional)
+
+`darwinConfigurations.mymac` manages macOS system settings (Dock, Finder, key repeat, Caps Lock → Control, system-wide Nix settings) with [nix-darwin](https://github.com/nix-darwin/nix-darwin). It doesn't touch the user environment, which still comes from the steps above.
+
+The first time, run nix-darwin from the flake:
+``` shell
+sudo nix run nix-darwin -- switch --flake .#mymac
+```
+After that, `darwin-rebuild` is installed:
+``` shell
+sudo darwin-rebuild switch --flake .#mymac
+```
+
 ## Emacs Setup
 
 After installing Emacs through this configuration, you need to reinstall LSP packages with plist support:
