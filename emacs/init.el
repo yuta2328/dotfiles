@@ -546,17 +546,7 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
     :ensure t
     :hook (xref-backend-functions . dumb-jump-xref-activate)
     :custom (dumb-jump-force-searcher . 'rg)
-    :bind ("C-c g" . dumb-jump-go))
-
-  (leaf copilot
-    :ensure t
-    :bind (:copilot-completion-map
-           ("<tab>" . copilot-accept-completion)
-           ("TAB" . copilot-accept-completion)
-           ("C-<tab>" . copilot-accept-completion-by-word)
-           ("C-TAB" . copilot-accept-completion-by-word)
-           ("C-n" . copilot-next-completion)
-           ("C-p" . copilot-previous-completion))))
+    :bind ("C-c g" . dumb-jump-go)))
 
 (leaf *lang
   :config
