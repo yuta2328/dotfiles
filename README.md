@@ -2,7 +2,9 @@
 
 My dotfiles in Home-manager and Nix.
 
-# Installation
+# Getting started
+
+## Nix Setup
 
 1. Install [Nix](https://nixos.org/download/) via **Multi-user installation**.
 2. Enable the `nix-command` and `flakes` features, which `nix build` and `nix run` need:
@@ -19,11 +21,11 @@ Or build and switch in one step:
 ``` shell
 nix run
 ```
-The standalone [Home-manager](https://github.com/nix-community/home-manager) CLI is not required, but `home-manager switch --flake .#myubuntu` still works if it is installed.
 
 ## macOS System Settings (optional)
 
-`darwinConfigurations.mymac` manages macOS system settings (Dock, Finder, key repeat, Caps Lock → Control, system-wide Nix settings) with [nix-darwin](https://github.com/nix-darwin/nix-darwin). It doesn't touch the user environment, which still comes from the steps above.
+`darwinConfigurations.mymac` manages macOS system settings (Dock, Finder, key repeat, Caps Lock → Control, system-wide Nix settings) with [nix-darwin](https://github.com/nix-darwin/nix-darwin). 
+It doesn't touch the user environment, which still comes from the steps above.
 
 The first time, run nix-darwin from the flake:
 ``` shell
