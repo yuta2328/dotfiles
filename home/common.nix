@@ -58,7 +58,7 @@
       ".emacs.d/ef-oreore-theme.el".source = ../emacs/ef-oreore-theme.el;
       ".emacs.d/ef-oreoredark-theme.el".source = ../emacs/ef-oreoredark-theme.el;
       ".ocp-indent".source = ../ocaml/.ocp-indent;
-      ".wez-term.lua".source = ../wezterm/.wezterm.lua;
+      ".wezterm.lua".source = ../wezterm/.wezterm.lua;
     };
   };
 

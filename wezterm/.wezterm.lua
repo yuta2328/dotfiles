@@ -49,7 +49,6 @@ config.keys = {
     key = 't',
     mods = 'CTRL',
     action = act.SpawnCommandInNewTab {
-      domain = { DomainName = 'WSL:Ubuntu' },
       cwd = '/home/yuta',
     },
   },
