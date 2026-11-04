@@ -9,19 +9,10 @@
     packages = with pkgs; [
       slack
       bitwarden-desktop
-      ghostty
-      # CLI
-      gemini-cli
-      github-copilot-cli
-      typst
       # processor
       coq
-      php
-      docker
-      php84Packages.composer
       # emacs
       libvterm
-      google-java-format
     ];
   };
 

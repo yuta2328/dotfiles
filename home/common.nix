@@ -9,6 +9,7 @@
 
     packages = with pkgs; [
       emacs
+      wezterm
       # CLI
       curl
       fish
@@ -18,6 +19,7 @@
       codex
       claude-code
       coursier
+      docker
       # font
       source-han-code-jp
       twitter-color-emoji
@@ -56,6 +58,7 @@
       ".emacs.d/ef-oreore-theme.el".source = ../emacs/ef-oreore-theme.el;
       ".emacs.d/ef-oreoredark-theme.el".source = ../emacs/ef-oreoredark-theme.el;
       ".ocp-indent".source = ../ocaml/.ocp-indent;
+      ".wez-term.lua".source = ../wezterm/.wezterm.lua;
     };
   };
 
