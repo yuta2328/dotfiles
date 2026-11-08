@@ -20,6 +20,7 @@
       claude-code
       coursier
       docker
+      colima
       # font
       source-han-code-jp
       twitter-color-emoji
