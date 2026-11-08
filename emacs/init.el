@@ -665,6 +665,20 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
     :ensure t
     :mode ("\\.md\\'" . gfm-mode))
 
+  (leaf md-mermaid
+    :preface
+    (unless (package-installed-p 'md-mermaid)
+      (package-vc-install "https://github.com/ahmetus/md-mermaid"))
+    :bind (:markdown-mode-map
+           :package markdown-mode
+           ("C-c m" . md-mermaid-transient))
+    :config
+    (let ((chrome "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"))
+      (when (and (eq system-type 'darwin)
+                 (not (getenv "PUPPETEER_EXECUTABLE_PATH"))
+                 (file-executable-p chrome))
+        (setenv "PUPPETEER_EXECUTABLE_PATH" chrome))))
+
   (leaf *prolog
     :mode ("\\.pl\\'" . prolog-mode)
     :hook

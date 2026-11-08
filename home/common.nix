@@ -37,6 +37,7 @@
       udev-gothic-nf
       nerd-fonts.symbols-only
       ripgrep
+      mermaid-cli
       cmake
       glib
       libtool
