@@ -16,11 +16,13 @@
       git
       gh
       lsd
+      gemini-cli
       codex
       claude-code
       coursier
       docker
       colima
+      uv
       # font
       source-han-code-jp
       twitter-color-emoji
