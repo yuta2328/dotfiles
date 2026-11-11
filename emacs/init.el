@@ -557,13 +557,10 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
     ("\\.mly\\'" . tuareg-mode)
     :ensure t
     :hook
-    (tuareg-mode-hook . lsp)
-    (tuareg-mode-hook . copilot-mode))
-  
+    (tuareg-mode-hook . lsp))
+
   (leaf dune
-    :mode ("\\dune\\'" . dune-mode)
-    :hook
-    (dune-mode-hook . copilot-mode))
+    :mode ("\\dune\\'" . dune-mode))
 
   (leaf elisp-mode
     :hook
@@ -576,16 +573,13 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
 
   (leaf nix-mode
     :ensure t
-    :mode ("\\.nix\\'" . nix-mode)
-    :hook
-    (nix-mode-hook . copilot-mode))
+    :mode ("\\.nix\\'" . nix-mode))
 
   (leaf haskell-mode
     :ensure t
     :custom (haskell-stylish-on-save . t)
     :hook
     (haskell-mode-hook . lsp)
-    (haskell-mode-hook . copilot-mode)
     :config
     (leaf lsp-haskell
       :ensure t))
@@ -599,7 +593,6 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
     ("\\.bib\\'" . bibtex-mode)
     :hook
     (LaTeX-mode-hook . lsp)
-    (LaTeX-mode-hook . copilot-mode)
     :config
     (leaf auctex
       :ensure t
@@ -680,9 +673,7 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
         (setenv "PUPPETEER_EXECUTABLE_PATH" chrome))))
 
   (leaf *prolog
-    :mode ("\\.pl\\'" . prolog-mode)
-    :hook
-    (prolog-mode-hook . copilot-mode))
+    :mode ("\\.pl\\'" . prolog-mode))
 
   (leaf rust-mode
     :ensure t
@@ -697,8 +688,6 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
 
   (leaf rocq ;coq
     :custom (coq-prog-name . "~/.opam/5.5.0/bin/coqtop")
-    :hook
-    (coq-mode-hook . copilot-mode)
     :config
     (leaf proof-general
       :ensure t))
@@ -741,8 +730,7 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
   
   (leaf python-mode
     :hook
-    (python-mode-hook . lsp)
-    (python-mode-hook . copilot-mode))
+    (python-mode-hook . lsp))
 
   (leaf lsp-pyright
       :ensure t
