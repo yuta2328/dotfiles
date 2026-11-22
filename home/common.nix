@@ -23,6 +23,7 @@
       docker
       colima
       uv
+      terraform
       # font
       source-han-code-jp
       twitter-color-emoji
