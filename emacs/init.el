@@ -550,6 +550,31 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
 
 (leaf *lang
   :config
+  (leaf treesit
+    :custom
+    (treesit-font-lock-level . 4)
+    (treesit-auto-install-grammar . 'never)
+    (treesit-enabled-modes . '(yaml-ts-mode
+                               json-ts-mode
+                               toml-ts-mode
+                               bash-ts-mode
+                               python-ts-mode
+                               c-ts-mode
+                               c++-ts-mode
+                               c-or-c++-ts-mode
+                               java-ts-mode
+                               js-ts-mode
+                               typescript-ts-mode
+                               tsx-ts-mode
+                               css-ts-mode
+                               rust-ts-mode
+                               dockerfile-ts-mode
+                               cmake-ts-mode)))
+
+  (leaf yaml-ts-mode
+    :mode ("\\.ya?ml\\'" . yaml-ts-mode)
+    :hook (yaml-ts-mode-hook . outline-minor-mode))
+
   (leaf tuareg
     :mode
     ("\\.ml\\'" . tuareg-mode)
@@ -634,18 +659,17 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
            ("+" . pdf-view-enlarge))
     :custom (pdf-view-resize-factor . 1.1))
 
-  (leaf typescript-mode
-    :ensure t
+  (leaf typescript-ts-mode
     :preface
-    (define-derived-mode typescript-tsx-mode typescript-mode
-      "typescript-tsx")
+    (defun my/typescript-lsp ()
+      (setq-local lsp-enabled-clients '(ts-ls))
+      (lsp))
     :mode
-    ("\\.tsx?\\'" . typescript-tsx-mode)
+    ("\\.ts\\'" . typescript-ts-mode)
+    ("\\.tsx\\'" . tsx-ts-mode)
     :hook
-    (typescript-mode-hook . lsp)
-    (typescript-mode-hook . (lambda ()
-                              (setq-local lsp-enabled-clients '(ts-ls))
-                              (lsp))))
+    (typescript-ts-mode-hook . my/typescript-lsp)
+    (tsx-ts-mode-hook . my/typescript-lsp))
 
   (leaf fsharp-mode
     :ensure t)
@@ -675,16 +699,16 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
   (leaf *prolog
     :mode ("\\.pl\\'" . prolog-mode))
 
-  (leaf rust-mode
-    :ensure t
+  (leaf rust-ts-mode
+    :mode ("\\.rs\\'" . rust-ts-mode)
     :hook
-    (rust-mode-hook . lsp)
+    (rust-ts-mode-hook . lsp)
     :custom
     (lsp-rust-server . 'rls))
 
   (leaf cargo
     :ensure t
-    :hook (rust-mode-hook . cargo-minor-mode))
+    :hook (rust-ts-mode-hook . cargo-minor-mode))
 
   (leaf rocq ;coq
     :custom (coq-prog-name . "~/.opam/5.5.0/bin/coqtop")
@@ -692,9 +716,9 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
     (leaf proof-general
       :ensure t))
 
-  (leaf c-mode
+  (leaf c-ts-mode
     :hook
-    (c-mode-hook . lsp))
+    (c-ts-mode-hook . lsp))
 
   (leaf scala-mode
     :ensure t)
@@ -716,21 +740,20 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
   (leaf lsp-java
     :ensure t
     :hook
-    (java-mode-hook . lsp-mode))
+    (java-ts-mode-hook . lsp-mode))
 
   (leaf web-mode
     :mode
     ("\\.jsp\\'" . web-mode)
     ("\\.html?\\'" . web-mode)
-    ("\\.css\\'" . web-mode)
     :ensure t)
 
   (leaf fish-mode
     :ensure t)
   
-  (leaf python-mode
+  (leaf python
     :hook
-    (python-mode-hook . lsp))
+    (python-ts-mode-hook . lsp))
 
   (leaf lsp-pyright
       :ensure t

@@ -10,7 +10,6 @@
     stateVersion = "24.11";
 
     packages = with pkgs; [
-      emacs
       wezterm
       # CLI
       curl
@@ -66,6 +65,32 @@
       ".ocp-indent".source = ../ocaml/.ocp-indent;
       ".wezterm.lua".source = ../wezterm/.wezterm.lua;
     };
+  };
+
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacs;
+    extraPackages = epkgs: [
+      (epkgs.treesit-grammars.with-grammars (g: with g; [
+        tree-sitter-yaml
+        tree-sitter-json
+        tree-sitter-toml
+        tree-sitter-bash
+        tree-sitter-python
+        tree-sitter-c
+        tree-sitter-cpp
+        tree-sitter-java
+        tree-sitter-javascript
+        tree-sitter-jsdoc
+        tree-sitter-typescript
+        tree-sitter-tsx
+        tree-sitter-css
+        tree-sitter-html
+        tree-sitter-rust
+        tree-sitter-dockerfile
+        tree-sitter-cmake
+      ]))
+    ];
   };
 
   services.emacs = {
