@@ -772,6 +772,75 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
     (interactive)
     (nth 0 (split-string (shell-command-to-string "uuidgen") "\n")))
 
+  ;; Show the TODO state of the target heading in front of links
+  ;; (e.g. [[id:...][Foo]] is displayed as "TODO Foo").
+  (defun my/org-link-todo--target (link)
+    "Return a marker to the heading LINK points to, or nil."
+    (let ((case-fold-search nil))
+      (cond
+       ((string-match "\\`id:\\([^:]+\\)" link)
+        (let* ((id (match-string 1 link))
+               (file (org-id-find-id-file id)))
+          (when file (org-id-find-id-in-file id file t))))
+       ((string-match "\\`\\*\\(.+\\)" link)
+        (org-find-exact-headline-in-buffer (match-string 1 link)))
+       ((string-match "\\`#\\(.+\\)" link)
+        (let ((pos (org-find-property "CUSTOM_ID" (match-string 1 link))))
+          (when pos (copy-marker pos))))
+       ((string-match "\\`\\(?:file:\\)?\\([^:]+\\.org\\)::\\*\\(.+\\)" link)
+        (let ((file (expand-file-name (match-string 1 link)))
+              (heading (match-string 2 link)))
+          (when (file-exists-p file)
+            (with-current-buffer (or (find-buffer-visiting file)
+                                     (find-file-noselect file))
+              (org-find-exact-headline-in-buffer heading))))))))
+
+  (defun my/org-link-todo--state (link)
+    "Return the TODO keyword of the heading LINK points to, or nil."
+    (ignore-errors
+      (let ((m (my/org-link-todo--target (org-link-unescape link))))
+        (when (markerp m)
+          (prog1 (org-with-point-at m (org-get-todo-state))
+            (set-marker m nil))))))
+
+  (defun my/org-link-todo--fontify (beg end)
+    "Add TODO-state overlays to bracket links between BEG and END."
+    (save-excursion
+      (save-match-data
+        (setq beg (progn (goto-char beg) (line-beginning-position))
+              end (progn (goto-char end) (line-end-position)))
+        (remove-overlays beg end 'my/org-link-todo t)
+        (goto-char beg)
+        (while (re-search-forward org-link-bracket-re end t)
+          (let ((lbeg (match-beginning 0))
+                (lend (match-end 0))
+                (kw (my/org-link-todo--state (match-string-no-properties 1))))
+            (when kw
+              (let ((ov (make-overlay lbeg lend nil t nil)))
+                (overlay-put ov 'my/org-link-todo t)
+                (overlay-put ov 'evaporate t)
+                (overlay-put ov 'before-string
+                             (concat (propertize kw 'face (org-get-todo-face kw))
+                                     " ")))))))))
+
+  (define-minor-mode my/org-link-todo-mode
+    "Display the TODO state of the target heading in front of Org links."
+    :lighter nil
+    (if my/org-link-todo-mode
+        (progn (jit-lock-register #'my/org-link-todo--fontify)
+               (jit-lock-refontify))
+      (jit-lock-unregister #'my/org-link-todo--fontify)
+      (save-restriction
+        (widen)
+        (remove-overlays (point-min) (point-max) 'my/org-link-todo t))))
+
+  (defun my/org-link-todo--refresh-all ()
+    "Refresh link TODO states in every buffer using `my/org-link-todo-mode'."
+    (dolist (buf (buffer-list))
+      (with-current-buffer buf
+        (when my/org-link-todo-mode
+          (jit-lock-refontify)))))
+
   (defvar org-agenda-agenda-column `((:discard (:not (:todo "TODO")))
                                      (:discard (:and (:scheduled future :deadline future)))
                                      (:name "💀 Missed tasks" :scheduled past :deadline past :order 3)
@@ -782,6 +851,8 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
   ("C-c c" . org-capture)
   :hook
   (org-mode-hook . org-indent-mode)
+  (org-mode-hook . my/org-link-todo-mode)
+  (org-after-todo-state-change-hook . my/org-link-todo--refresh-all)
   :custom
   (org-startup-folded . 'showall)
   (org-outline-path-complete-in-steps . nil)
