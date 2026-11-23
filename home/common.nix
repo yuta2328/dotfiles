@@ -3,6 +3,8 @@
 { pkgs, ... }:
 
 {
+  imports = [ ./opam.nix ];
+
   home = {
     username = "yuta";
     stateVersion = "24.11";
