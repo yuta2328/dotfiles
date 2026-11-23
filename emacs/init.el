@@ -734,7 +734,11 @@ Run this after setting up on a new machine to avoid hash-table/plist errors."
 
   (leaf lsp-pyright
       :ensure t
-      :custom (lsp-pyright-langserver-command . "pyright")))
+      :custom (lsp-pyright-langserver-command . "pyright"))
+
+  (leaf terraform-mode
+    :ensure t
+    :hook (terraform-mode-hook . lsp)))
 
 (leaf org
   :preface
