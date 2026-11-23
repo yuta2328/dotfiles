@@ -12,7 +12,7 @@ config.font_size = 12.0
 config.line_height = 1.1
 
 -- カラーテーマ
-config.color_scheme = 'Tokyo Night Day'
+config.color_scheme = 'Ubuntu'
 
 -- 背景
 config.window_background_opacity = 0.80
