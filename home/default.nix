@@ -10,7 +10,7 @@
       slack
       bitwarden-desktop
       # processor
-      coq
+      rocqPackages.coq
       # emacs
       libvterm
     ];

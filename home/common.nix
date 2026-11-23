@@ -18,7 +18,6 @@
       git
       gh
       lsd
-      gemini-cli
       codex
       claude-code
       coursier
